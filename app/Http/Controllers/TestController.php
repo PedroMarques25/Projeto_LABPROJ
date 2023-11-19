@@ -10,9 +10,19 @@ class TestController extends Controller
     {
         return view ('index');
     }
- 
+
     public function about()
     {
         return view ('about');
+    }
+
+    public function index()
+    {
+        return view ('index');
+    }
+
+    public function login()
+    {
+        return view ('login');
     }
 }
