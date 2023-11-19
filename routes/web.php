@@ -23,3 +23,6 @@ Route::get('/index', [TestController::class,'index']);
 Route::get('/about', [TestController::class,'about']);
 
 Route::get('/login', [TestController::class,'login']);
+
+Route::get('/signin', [TestController::class,'signin']);
+

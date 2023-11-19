@@ -25,4 +25,9 @@ class TestController extends Controller
     {
         return view ('login');
     }
+
+    public function signin()
+    {
+        return view ('signin');
+    }
 }
