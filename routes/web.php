@@ -20,9 +20,11 @@ Route::get("/", [TestController::class,'home']);
 
 Route::get('/index', [TestController::class,'index']);
 
-Route::get('/about', [TestController::class,'about']);
+Route::get('/team', [TestController::class,'about']);
 
 Route::get('/login', [TestController::class,'login']);
 
 Route::get('/signin', [TestController::class,'signin']);
+
+Route::get('/contact', [TestController::class,'contact']);
 

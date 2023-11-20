@@ -52,9 +52,11 @@
                                 ...
                             </p>
                             <div class="col">
-                                <div class="d-grid">
-                                    <button class="btn btn-primary btn-lg disabled" id="submitButton2" type="submit">Sign in</button>
-                                </div>
+                                <a href="/signin">
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary btn-lg disabled" id="submitButton2" type="submit" >Sign in</button>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </form>
