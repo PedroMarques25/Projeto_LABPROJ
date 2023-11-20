@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes
+|--------------------------------------------------------------------------
+*/
 
 Route::get("/", [TestController::class,'home']);
 
@@ -27,4 +33,17 @@ Route::get('/login', [TestController::class,'login']);
 Route::get('/signin', [TestController::class,'signin']);
 
 Route::get('/contact', [TestController::class,'contact']);
+
+Route::get('/profile', [TestController::class,'profile']);
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes
+|--------------------------------------------------------------------------
+*/
+Route::post('/signin', [UserController::class, 'store'])->name('user.signin');
+
+Route::post('/login', [UserController::class, 'login'])->name('user.login');
 

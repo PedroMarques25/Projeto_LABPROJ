@@ -35,4 +35,9 @@ class TestController extends Controller
     {
         return view ('contact');
     }
+
+    public function profile()
+    {
+        return view ('profile');
+    }
 }
