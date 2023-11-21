@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
-@section('title')
-This is My City!
-@endsection
+@section('title', 'TEAM')
 
 @section('content')
-<h2 class="mt-5 mb-3 text-center">About Us!</h2>
+    @include('sections.about_us')
+    @include('sections.project_social_media')
 @endsection

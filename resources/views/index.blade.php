@@ -3,5 +3,7 @@
 @section('title', 'INDEX')
 
 @section('content')
-    @include('sections.about_me')
+    @include('sections.main_page')
+    @include('sections.project_social_media')
+
 @endsection

@@ -30,4 +30,14 @@ class TestController extends Controller
     {
         return view ('signin');
     }
+
+    public function contact()
+    {
+        return view ('contact');
+    }
+
+    public function profile()
+    {
+        return view ('profile');
+    }
 }

@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@extends(('layouts.app_profile'))
 
-@section('title', 'SIGN IN')
+@section('title', 'PROFILE')
 
 @section('content')
-    @include('sections.signin_form')
+    @include('sections.profile_page')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
