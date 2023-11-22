@@ -33,15 +33,15 @@
                             <p class="lead fw-normal text-muted mb-0">
                                 ...
                             </p>
-                            <div class="col">
-                                <a href="/signin">
-                                    <div class="d-grid">
-                                        <button class="btn btn-primary btn-lg" id="submitButton2" type="submit" >Sign in</button>
-                                    </div>
-                                </a>
-                            </div>
                         </div>
                     </form>
+                    <div class="col">
+                        <a href="/signin">
+                            <div class="d-grid">
+                                <button class="btn btn-primary btn-lg " id="submitButton2" type="submit" >Sign in</button>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
