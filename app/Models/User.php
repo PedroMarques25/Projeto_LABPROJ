@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -43,18 +44,16 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public static function create(array $validatedData): User
+    public function setPasswordAttribute($value): void
     {
-        // Your custom logic here before creating the user
-
-        // Creating the user
-        $user = new self();
-        $user->name = $validatedData['name'];
-        $user->email = $validatedData['email'];
-        $user->password = bcrypt($validatedData['password']);
-
-        // Your custom logic after creating the user
-
-        return $user;
+        $this->attributes['password'] = bcrypt($value);
     }
+
+    protected static function create(array $userData): User
+    {
+        // Hash the password before creating the user
+        $userData['password'] = Hash::make($userData['password']);
+
+        return self::create($userData);
+    }/**/
 }

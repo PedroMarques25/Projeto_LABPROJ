@@ -1,0 +1,15 @@
+.edit-option {
+    position: absolute;
+    top: 56%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 8px 16px;
+    border-radius: 5px;
+    display: none; /* Initially hidden */
+    z-index: 1; /* Place on top of the image */
+}
+
+.p-5:hover .edit-option {
+    display: block; /* Display when hovering over .p-5 element */
+}

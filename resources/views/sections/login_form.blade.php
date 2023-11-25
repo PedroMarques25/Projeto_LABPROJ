@@ -12,16 +12,16 @@
                     <form id="loginForm" method="POST" action="{{ route('user.login') }}">
                         @csrf
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="email_login" name="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                            <label for="email_login"></label><input class="form-control" id="email_login" name="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
                             <label for="email">Email address</label>
                             <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                         </div>
                         <!-- Password input-->
                         <div class="form-floating mb-3">
-                            <input class="form-control" id="password_login" name="password" type="password" placeholder="******" data-sb-validations="required" />
+                            <label for="password_login"></label><input class="form-control" id="password_login" name="password" type="password" placeholder="******" required />
                             <label for="password">Password</label>
-                            <div class="invalid-feedback" data-sb-feedback="password:required">Password is required.</div>
+                            <div class="invalid-feedback">Password is required.</div>
                         </div>
                         <!-- Submit Button-->
                         <div class="row">

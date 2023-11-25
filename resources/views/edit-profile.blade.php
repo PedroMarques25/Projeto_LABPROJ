@@ -1,10 +1,11 @@
-@extends(('layouts.app'))
+@extends('layouts.app_profile')
 
-@section('title', 'LOGIN')
+@section('title', Session::get('user_name'))
+@section('user_name', Session::get('user_name'))
 
 @section('content')
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" style="margin-top: 5%">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -12,5 +13,5 @@
             </ul>
         </div>
     @endif
-    @include('sections.login_form')
+    @include('sections.edit_profile_page')
 @endsection

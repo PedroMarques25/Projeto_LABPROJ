@@ -3,7 +3,6 @@
 @section('title', 'SIGN IN')
 
 @section('content')
-    @include('sections.signin_form')
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -18,4 +17,5 @@
             {{ Session::get('success') }}
         </div>
     @endif
+    @include('sections.signin_form')
 @endsection
