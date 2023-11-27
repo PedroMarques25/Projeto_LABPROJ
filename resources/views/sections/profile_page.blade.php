@@ -6,11 +6,22 @@
             <div class="d-flex align-items-center justify-content-center mb-5">
                 <div class="col-lg-3 order-lg-1">
                     <div class="p-5">
-                        <img class="img-fluid rounded-circle" src="{{ asset('profile_default-removebg.png') }}" alt="..." />
-                        <div class="edit-option">
-                            <span>Edit</span>
-                        </div>
-                        <ul class="list-unstyled mt-3 mb-0">
+                        @if(empty(Auth::user()->image_path))
+                            <img class="img-fluid rounded-circle" src="{{ asset('profile_default-removebg.png') }}" alt="Default Image" />
+                        @else
+                            <img class="img-fluid rounded-circle" src="{{ Auth::user()->image_path }}" alt="User Image" />
+                        @endif
+                            <form action="{{ route('update-profile-image') }}" method="POST" enctype="multipart/form-data" class="edit-option position-absolute top-50 start-50 translate-middle">
+                                @csrf <!-- CSRF protection -->
+                                <label for="profile_image" class="btn btn-primary btn-sm rounded-pill mt-5">
+                                    Upload Image
+                                    <input type="file" id="profile_image" name="profile_image" style="display: none;">
+                                </label>
+
+                                <!-- Submit button -->
+                                <button type="submit" class="btn btn-primary btn-sm rounded-pill mt-3">Save Changes</button>
+                            </form>
+                            <ul class="list-unstyled mt-3 mb-0">
                             <li>@yield('user_bio', 'Bio')</li>
                             <li>Others</li>
                         </ul>

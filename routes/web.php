@@ -39,6 +39,9 @@ Route::get('/profile', [TestController::class, 'profile'])->name('profile');
 
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
 
+Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+
 /*
 |--------------------------------------------------------------------------
 | Post Routes
@@ -50,8 +53,16 @@ Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
-Route::post('/update-bio', [ProfileController::class, 'updateBio'])->name('update-bio');
-
 Route::post('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+Route::post('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+
+/*
+|--------------------------------------------------------------------------
+| Delete Routes
+|--------------------------------------------------------------------------
+*/
+Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->name('delete-profile');
 
 

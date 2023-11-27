@@ -17,7 +17,6 @@ class UserController extends Controller
                 'required',
                 'string',
                 'max:255',
-                // Regular expression to disallow spaces and encoded characters
                 'regex:/^[^\s]+$|^[^\p{C}]+$/u',
             ],
             'email' => [
@@ -25,7 +24,6 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                // Email format validation
                 'regex:/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/',
                 'unique:users',
             ],
@@ -33,10 +31,8 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password',
         ]);
 
-        // Create a new user object
-        $user = User::create($validatedData);
-        $user->save();
-
+        // Create a new user object and save it to the database
+        User::create($validatedData);
 
         return Redirect::back()->with('success', 'User created successfully');
     }

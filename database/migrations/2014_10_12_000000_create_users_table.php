@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('bio')->default('Default bio');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->binary('image_data')->nullable();
+            $table->string('image_path')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

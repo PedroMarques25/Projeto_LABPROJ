@@ -62,3 +62,13 @@
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 1%">Save Changes</button>
 </form>
+
+<form action="{{ route('delete-profile') }}" method="POST" style="margin-top: 2%">
+    @csrf
+    @method('DELETE') <!-- Method spoofing for DELETE request -->
+    <div class="form-group">
+        <label for="delete_account_pass_confirmation">Confirm account deletion by entering your password:</label>
+        <input type="password" class="form-control" id="delete_account_pass_confirmation" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Delete</button>
+</form>
