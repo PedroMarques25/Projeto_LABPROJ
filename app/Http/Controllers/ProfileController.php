@@ -68,28 +68,30 @@ class ProfileController extends Controller
             return redirect()->route('login');
         }
 
-        $user = Auth::user();
+         $request->validate([
+              'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+          ]); /**/
 
-        $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        if ($request->file('profile_image')) {
+            $user = Auth::user();
 
-        if ($request->hasFile('profile_image')) {
             $image = $request->file('profile_image');
 
             // Set a unique name for the image file
             $imageName = $user->id . '_' . time() . '_profile.' . $image->getClientOriginalExtension();
 
-            $image->storeAs('storage/app/public', $imageName, 'public');
+            // Store the image in the storage folder using the 'public' disk
+            $image->storeAs('public', $imageName);
 
-                // Update the image path
-                $user->image_path = '/storage/app/public' . $imageName;
-                $user->save();
-                return redirect()->route('profile')->with('success', 'Profile picture updated successfully');
-            } else {
-                // If the file doesn't exist, something might be wrong with the upload process
-                return redirect()->route('profile')->with('error', 'Failed to upload the image');
-            }
+            // Update the image path in the database
+            $user->image_path = 'storage/' . $imageName;
+            $user->save();
+
+            return redirect()->route('profile')->with('success', 'Profile picture updated successfully');
+        } //else {
+            // If the file doesn't exist, something might be wrong with the upload process
+            return redirect()->route('profile')->with('error', 'Failed to upload the image');
+        //}
     }
 
     public function deleteProfile(Request $request)

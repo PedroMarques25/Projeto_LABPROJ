@@ -49,11 +49,4 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
-    protected static function create(array $userData): User
-    {
-        // Hash the password before creating the user
-        $userData['password'] = Hash::make($userData['password']);
-
-        return self::create($userData);
-    }/**/
 }

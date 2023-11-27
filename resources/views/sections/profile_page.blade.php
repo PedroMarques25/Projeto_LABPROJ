@@ -9,19 +9,25 @@
                         @if(empty(Auth::user()->image_path))
                             <img class="img-fluid rounded-circle" src="{{ asset('profile_default-removebg.png') }}" alt="Default Image" />
                         @else
-                            <img class="img-fluid rounded-circle" src="{{ Auth::user()->image_path }}" alt="User Image" />
+                            <img class="rounded-circle custom-img" src="{{ Auth::user()->image_path }}" alt="User Image" />
                         @endif
                             <form action="{{ route('update-profile-image') }}" method="POST" enctype="multipart/form-data" class="edit-option position-absolute top-50 start-50 translate-middle">
                                 @csrf <!-- CSRF protection -->
-                                <label for="profile_image" class="btn btn-primary btn-sm rounded-pill mt-5">
-                                    Upload Image
-                                    <input type="file" id="profile_image" name="profile_image" style="display: none;">
-                                </label>
-
-                                <!-- Submit button -->
-                                <button type="submit" class="btn btn-primary btn-sm rounded-pill mt-3">Save Changes</button>
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        <label for="profile_image" class="btn btn-primary btn-sm rounded-pill w-150">
+                                            Upload
+                                            <input type="file" id="profile_image" name="profile_image" style="display: none;">
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6 mt-md-0 mt-2">
+                                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
-                            <ul class="list-unstyled mt-3 mb-0">
+                            <ul class="list-unstyled mt-5 mb-0 custom-ul">
                             <li>@yield('user_bio', 'Bio')</li>
                             <li>Others</li>
                         </ul>

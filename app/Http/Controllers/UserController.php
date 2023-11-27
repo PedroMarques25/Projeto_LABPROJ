@@ -34,7 +34,7 @@ class UserController extends Controller
         // Create a new user object and save it to the database
         User::create($validatedData);
 
-        return Redirect::back()->with('success', 'User created successfully');
+        return Redirect::route('login')->with('success', 'User created successfully. Please log in.');
     }
 
     public function login (Request $request){
@@ -61,14 +61,15 @@ class UserController extends Controller
         // Authentication failed, redirect back with an error message
         return redirect()->back()->withInput()->withErrors(['login' => 'Invalid credentials']);
     }
-    public static function logout(Request $request = null)
+    public static function logout()
     {
-        Auth::logout();
-        /*$request->session()->invalidate();
-        $request->session()->regenerateToken(); // Regenerate the CSRF token*/
+        // Check if the user is authenticated before performing logout
+        if (Auth::check()) {
+            Auth::logout();
 
-        $request->session()->forget('user_name');
-        $request->session()->forget('user_bio');
+            session()->forget('user_name');
+            session()->forget('user_bio');
+        }
 
         return redirect('index');
     }

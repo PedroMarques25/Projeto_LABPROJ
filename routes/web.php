@@ -44,7 +44,7 @@ Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile
 
 /*
 |--------------------------------------------------------------------------
-| Post Routes
+| Post Routes - UserController
 |--------------------------------------------------------------------------
 */
 Route::post('/signin', [UserController::class, 'store'])->name('user.signin');
@@ -52,6 +52,12 @@ Route::post('/signin', [UserController::class, 'store'])->name('user.signin');
 Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - ProfileController
+|--------------------------------------------------------------------------
+*/
 
 Route::post('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
 
