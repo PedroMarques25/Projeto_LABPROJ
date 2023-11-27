@@ -9,7 +9,7 @@
             </div>
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
-                    <form id="loginForm" method="POST" action="{{ route('user.login') }}">
+                    <form id="loginForm" method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-floating mb-3">
                             <label for="email_login"></label><input class="form-control" id="email_login" name="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />

@@ -25,3 +25,7 @@
     font-size: 1.2em; /* Increase the font size */
 }
 
+#hello, #where_to_go{
+    color: white;
+}
+

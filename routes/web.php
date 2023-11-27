@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,9 +48,9 @@ Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile
 | Post Routes - UserController
 |--------------------------------------------------------------------------
 */
-Route::post('/signin', [UserController::class, 'store'])->name('user.signin');
+Route::post('/signin', [UserController::class, 'store'])->name('signin');
 
-Route::post('/login', [UserController::class, 'login'])->name('user.login');
+Route::post('/login', [UserController::class, 'login'])->name('login');
 
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
@@ -66,9 +67,15 @@ Route::post('/update-profile-picture', [ProfileController::class, 'updateProfile
 
 /*
 |--------------------------------------------------------------------------
-| Delete Routes
+| Delete Routes - ProfileController
 |--------------------------------------------------------------------------
 */
 Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->name('delete-profile');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - PurchaseController
+|--------------------------------------------------------------------------
+*/
 
+Route::get("/my-cart", [\App\Http\Controllers\PurchaseController::class,'my_cart'])->name('my-cart');

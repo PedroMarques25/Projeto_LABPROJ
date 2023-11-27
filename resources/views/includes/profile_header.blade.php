@@ -12,7 +12,7 @@
                     </form>
                 </li>
                 <li class="nav-item">
-                    <form action="{{route('logout')}}" method="POST">
+                    <form action="{{route('my-cart')}}" method="GET">
                         @csrf <!-- CSRF protection -->
                         <button type="submit" class="btn btn-link nav-link">
                             My Cart <i class="bi bi-cart4"></i>

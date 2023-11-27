@@ -32,10 +32,8 @@ class TestController extends Controller
     public function signin()
     {
         if (Auth::check()) {
-            UserController::logout();
 
-            // User is already logged in, return the view with a flag to trigger the popup
-            return redirect()->route('logout');
+            return redirect()->route('profile');
         }
         return view ('signin');
     }

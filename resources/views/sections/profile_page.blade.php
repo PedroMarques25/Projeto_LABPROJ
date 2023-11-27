@@ -34,8 +34,8 @@
                     </div>
                 </div>
                 <div class="col-lg-9 order-lg-2">
-                    <h1 class="masthead-heading mb-0">Hello, @yield('user_name', 'User')</h1>
-                    <h2 class="masthead-subheading mb-0">Where to go?</h2>
+                    <h1 class="masthead-heading mb-0" id="hello">Hello, @yield('user_name', 'User')</h1>
+                    <h2 class="masthead-subheading mb-0" id="where_to_go">Where to go?</h2>
                     <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Search</a>
                 </div>
             </div>
