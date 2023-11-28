@@ -78,4 +78,6 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 |--------------------------------------------------------------------------
 */
 
-Route::get("/my-cart", [\App\Http\Controllers\PurchaseController::class,'my_cart'])->name('my-cart');
+Route::get("/my-cart", [PurchaseController::class,'my_cart'])->name('my-cart');
+
+
