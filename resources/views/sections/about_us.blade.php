@@ -7,7 +7,7 @@
         <div class="row gx-5 justify-content-center" >
             <div class="col-md-4 d-flex flex-column align-items-center">
                 <div class="profile bg-gradient-primary-to-secondary" style="max-width: 40%; max-height: 40%;">
-                    <img class="profile-img" src="karol_profile-removebg.png" alt="Image 2" style="max-width: 100%; height: auto;" />
+                    <img class="profile-img" src="{{asset('karol_profile-removebg.png')}}" alt="Image 2" style="max-width: 100%; height: auto;" />
                 </div>
                 <ul class="list-unstyled text-muted mt-2 mb-0">
                     <li>Karol Henriques</li>
@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-4 d-flex flex-column align-items-center">
                 <div class="profile bg-gradient-primary-to-secondary" style="max-width: 40%; max-height: 40%;">
-                    <img class="profile-img" src="Ines_profile-removebg.png" alt="Image 2" style="max-width: 100%; height: auto;" />
+                    <img class="profile-img" src="{{asset('Ines_profile-removebg.png')}}" alt="Image 2" style="max-width: 100%; height: auto;" />
                 </div>
                 <ul class="list-unstyled text-muted mt-2 mb-0">
                     <li>Maria Inês Gomes</li>
@@ -31,7 +31,7 @@
             </div>
             <div class="col-md-4 d-flex flex-column align-items-center">
                 <div class="profile bg-gradient-primary-to-secondary" style="max-width: 40%; max-height: 40%;">
-                    <img class="profile-img" src="Pedro_profile-removebg.png" alt="Image 2" style="max-width: 100%; height: auto;" />
+                    <img class="profile-img" src="{{asset('Pedro_profile-removebg.png')}}" alt="Image 2" style="max-width: 100%; height: auto;" />
                 </div>
                 <ul class="list-unstyled text-muted mt-2 mb-0">
                     <li>Pedro Marques</li>
