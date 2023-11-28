@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
@@ -81,3 +82,9 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 Route::get("/my-cart", [PurchaseController::class,'my_cart'])->name('my-cart');
 
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - Admin
+|--------------------------------------------------------------------------
+*/
+Route::resource('countries', CountryController::class);
