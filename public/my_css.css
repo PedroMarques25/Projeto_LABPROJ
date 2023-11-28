@@ -29,3 +29,35 @@
     color: white;
 }
 
+.panel-title {
+    display: inline;
+    font-weight: bold;
+}
+.display-table {
+    display: table;
+}
+.display-tr {
+    display: table-row;
+}
+.display-td {
+    display: table-cell;
+    vertical-align: middle;
+    width: 61%;
+}
+.form-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.form-group {
+    margin-bottom: 5%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
+
