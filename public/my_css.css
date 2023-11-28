@@ -1,0 +1,31 @@
+.p-5 {
+    position: relative; /* Position relative for the container */
+    display: inline-block; /* Ensures circular shape doesn't get affected */
+    overflow: hidden; /* Hide overflowing elements */
+}
+
+.edit-option {
+    display: none; /* Initially hidden */
+    margin-top:6% ;
+}
+
+.p-5:hover .edit-option {
+    display: block; /* Display when hovering over .p-5 element */
+}
+
+.custom-img {
+    width: 200px;
+    height: 200px;
+    border: 5px solid red;
+    object-fit: cover; /* Maintains aspect ratio and covers the entire container */
+}
+
+.custom-ul {
+    margin-top: 30px; /* Increase the top margin as needed */
+    font-size: 1.2em; /* Increase the font size */
+}
+
+#hello, #where_to_go{
+    color: white;
+}
+
