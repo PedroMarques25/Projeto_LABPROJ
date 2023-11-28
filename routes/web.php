@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PurchaseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,28 +24,66 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get("/", [TestController::class,'home']);
+Route::get('/', 'App\Http\Controllers\StripeController@index')->name('index');
 
-Route::get('/index', [TestController::class,'index']);
+#Route::get("/", [TestController::class,'home'])->name('home');
 
-Route::get('/team', [TestController::class,'about']);
+Route::get('/index', [TestController::class,'index'])->name('index');
 
-Route::get('/login', [TestController::class,'login']);
+Route::get('/team', [TestController::class,'about']) ->name('about');
 
-Route::get('/signin', [TestController::class,'signin']);
+Route::get('/login', [TestController::class,'login']) ->name('login');
 
-Route::get('/contact', [TestController::class,'contact']);
+Route::get('/signin', [TestController::class,'signin']) ->name('signin');
 
-Route::get('/profile', [TestController::class,'profile']);
+Route::get('/contact', [TestController::class,'contact']) -> name('contact');
 
+Route::get('/profile', [TestController::class, 'profile'])->name('profile');
+
+Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
+
+Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+Route::get('/success', 'App\Http\Controllers\StripeController@success') -> name('success');
 
 
 /*
 |--------------------------------------------------------------------------
-| Post Routes
+| Post Routes - UserController
 |--------------------------------------------------------------------------
 */
-Route::post('/signin', [UserController::class, 'store'])->name('user.signin');
+Route::post('/signin', [UserController::class, 'store'])->name('signin');
 
-Route::post('/login', [UserController::class, 'login'])->name('user.login');
+Route::post('/login', [UserController::class, 'login'])->name('login');
+
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+Route ::post('/checkout', 'App\Http\Controllers\StripeController@checkout') -> name('checkout');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - ProfileController
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+Route::post('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+
+/*
+|--------------------------------------------------------------------------
+| Delete Routes - ProfileController
+|--------------------------------------------------------------------------
+*/
+Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->name('delete-profile');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - PurchaseController
+|--------------------------------------------------------------------------
+*/
+
+Route::get("/my-cart", [PurchaseController::class,'my_cart'])->name('my-cart');
+
 

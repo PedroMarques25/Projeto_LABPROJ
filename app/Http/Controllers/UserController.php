@@ -17,7 +17,6 @@ class UserController extends Controller
                 'required',
                 'string',
                 'max:255',
-                // Regular expression to disallow spaces and encoded characters
                 'regex:/^[^\s]+$|^[^\p{C}]+$/u',
             ],
             'email' => [
@@ -25,20 +24,17 @@ class UserController extends Controller
                 'string',
                 'email',
                 'max:255',
-                // Email format validation
                 'regex:/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$/',
                 'unique:users',
             ],
-            'password' => 'required|string|min:8|confirmed', // "confirmed" rule
-            'password_confirmation' => 'required|string|min:8',
+            'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|same:password',
         ]);
 
-        // Create a new user object
-        $user = User::create($validatedData);
-        $user->save();
+        // Create a new user object and save it to the database
+        User::create($validatedData);
 
-        // Optionally, return a response or redirect somewhere
-        return Redirect::back()->with('success', 'User created successfully');
+        return Redirect::route('login')->with('success', 'User created successfully. Please log in.');
     }
 
     public function login (Request $request){
@@ -49,6 +45,15 @@ class UserController extends Controller
 
         // Attempt to authenticate the user
         if (Auth::attempt($credentials)) {
+
+            $user = Auth::user();
+
+            // Store the user's name in the session
+            session(['user_name' => $user->name]);
+
+            //Store the user's bio in the session
+            session(['user_bio' => $user->bio]);
+
             // Authentication successful, redirect to a dashboard or profile page
             return redirect()->intended('/profile');
         }
@@ -56,4 +61,18 @@ class UserController extends Controller
         // Authentication failed, redirect back with an error message
         return redirect()->back()->withInput()->withErrors(['login' => 'Invalid credentials']);
     }
+    public static function logout()
+    {
+        // Check if the user is authenticated before performing logout
+        if (Auth::check()) {
+            Auth::logout();
+
+            session()->forget('user_name');
+            session()->forget('user_bio');
+        }
+
+        return redirect('index');
+    }
 }
+
+

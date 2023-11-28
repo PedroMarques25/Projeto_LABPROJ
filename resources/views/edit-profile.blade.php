@@ -1,17 +1,11 @@
-@extends(('layouts.app_profile'))
+@extends('layouts.app_profile')
 
 @section('title', Session::get('user_name'))
 @section('user_name', Session::get('user_name'))
-@section('user_bio', Session::get('user_bio'))
 
 @section('content')
-    @if(Session::has('success'))
-        <div class="alert alert-success" style="margin-top: 7%">
-            {{ Session::get('success') }}
-        </div>
-    @endif
     @if ($errors->any())
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" style="margin-top: 5%">
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -19,5 +13,5 @@
             </ul>
         </div>
     @endif
-    @include('sections.profile_page')
+    @include('sections.edit_profile_page')
 @endsection

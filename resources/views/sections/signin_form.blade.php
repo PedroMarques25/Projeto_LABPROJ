@@ -9,7 +9,7 @@
             </div>
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
-                    <form id="loginForm" method="POST" action="{{ route('user.signin') }}">
+                    <form id="loginForm" method="POST" action="{{ route('signin') }}">
                         @csrf
                         <!-- Name input-->
                         <div class="form-floating mb-3">
