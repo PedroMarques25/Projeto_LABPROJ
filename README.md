@@ -59,7 +59,13 @@ This is a Laravel-based web application designed to offer and sell tourist route
    php artisan migrate
    ```
 
-8. Start the development server:
+8. Seed database:
+
+   ```bash
+   php artisan migrate --seed
+   ```
+
+9. Start the development server:
 
    ```bash
    php artisan serve
