@@ -1,98 +1,79 @@
-<body id="page-top">
-<!-- Header-->
-<header class="masthead text-center text-white">
-    <div class="masthead-content">
-        <div class="container px-5">
-            <div class="d-flex align-items-center justify-content-center mb-5">
-                <div class="col-lg-3 order-lg-1">
-                    <div class="p-5">
-                        @if(empty(Auth::user()->image_path))
-                            <img class="img-fluid rounded-circle" src="{{ asset('profile_default-removebg.png') }}" alt="Default Image" />
-                        @else
-                            <img class="rounded-circle custom-img" src="{{ Auth::user()->image_path }}" alt="User Image" />
-                        @endif
-                            <form action="{{ route('update-profile-image') }}" method="POST" enctype="multipart/form-data" class="edit-option position-absolute top-50 start-50 translate-middle">
-                                @csrf <!-- CSRF protection -->
-                                <div class="row">
-                                    <div class="col-md-6 mb-2">
-                                        <label for="profile_image" class="btn btn-primary btn-sm rounded-pill w-150">
-                                            Upload
-                                            <input type="file" id="profile_image" name="profile_image" style="display: none;">
-                                        </label>
-                                    </div>
-                                    <div class="col-md-6 mt-md-0 mt-2">
-                                        <button type="submit" class="btn btn-primary btn-sm rounded-pill w-100">
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                            <ul class="list-unstyled mt-5 mb-0 custom-ul">
-                            <li>@yield('user_bio', 'Bio')</li>
-                            <li>Others</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-9 order-lg-2">
-                    <h1 class="masthead-heading mb-0" id="hello">Hello, @yield('user_name', 'User')</h1>
-                    <h2 class="masthead-subheading mb-0" id="where_to_go">Where to go?</h2>
-                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Search</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="bg-circle-1 bg-circle"></div>
-    <div class="bg-circle-2 bg-circle"></div>
-    <div class="bg-circle-3 bg-circle"></div>
-    <div class="bg-circle-4 bg-circle"></div>
-</header>
-
 <!-- Content section 1-->
 <section id="scroll">
-    <div class="container px-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6 order-lg-2">
-                <div class="p-5"><img class="img-fluid rounded-circle" src="" alt="..." /></div>
-            </div>
-            <div class="col-lg-6 order-lg-1">
-                <div class="p-5">
-                    <h2 class="display-4">For those about to rock...</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+    <div class="col-lg-9 order-lg-2">
+        <form action="{{ route('become-guide') }}" method="GET">
+            <button type="submit" class="btn btn-primary btn-xl rounded-pill mt-5">Become a guide</button>
+        </form>
+    </div>
+    <header class="masthead text-center text-white" style="margin-top: 6%; padding-top: 0.5%; padding-bottom: 0.5%">
+        <div>
+            <div class="sm-circle-1 bg-circle"></div>
+            <div class="bg-circle-2 bg-circle"></div>
+            <div class="bg-circle-3 bg-circle"></div>
+            <div class="bg-circle-4 bg-circle"></div>
+        </div>
+    </header>
+</section>
+<h2 style="margin-top: 2%">Recently added attractions</h2>
+
+<div id="attractionCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 4%">
+    <div class="carousel-inner">
+        @foreach($attractions as $attraction)
+            <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                <img src="{{ $attraction->attraction_image_path }}" class="d-block w-100" alt="Attraction Image">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>{{ $attraction->name }}</h5>
+                    <p>{{ $attraction->aboutIt }}</p>
                 </div>
             </div>
-        </div>
+        @endforeach
     </div>
-</section>
-<!-- Content section 2-->
-<section>
-    <div class="container px-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6">
-                <div class="p-5"><img class="img-fluid rounded-circle" src="" alt="..." /></div>
-            </div>
-            <div class="col-lg-6">
-                <div class="p-5">
-                    <h2 class="display-4">We salute you!</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
+    <button class="carousel-control-prev" type="button" data-bs-target="#attractionCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#attractionCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+<header class="masthead text-center text-white" style="margin-top: 6%; padding-top: 0.5%; padding-bottom: 0.5%">
+    <div>
+        <div class="sm-circle-1 bg-circle"></div>
+        <div class="bg-circle-2 bg-circle"></div>
+        <div class="bg-circle-3 bg-circle"></div>
+        <div class="bg-circle-4 bg-circle"></div>
+    </div>
+</header>
+<h2 style="margin-top: 2%">Recently added routes</h2>
+<div class="row">
+    @php $imageCount = 0; @endphp <!-- Initializing image count -->
+    @foreach($routes as $route)
+        @if($imageCount < 4) <!-- Check if the image count is less than 5 -->
+        <div class="col-md-3"> <!-- Display each card in a column taking 4/12 of the row -->
+            <div class="card mb-4">
+                <!-- Example image, replace with your route's image -->
+                @if($route->route_path_image)
+                    <img class="card-img-top" src="{{ asset($route->route_path_image) }}" alt="Route Image">
+                @else
+                    <!-- If there's no route image path available -->
+                    <img class="card-img-top" src="{{ asset('storage/route-default-image.jpg') }}" alt="Default Image">
+                @endif
+                <div class="card-body">
+                    <h5 class="card-title">{{ $route->name }}</h5>
+                    <p class="card-text">Default</p>
+                    <p class="card-text">Available spots: {{ $route->remaining_available_slots }}</p>
+                    <p class="card-text">Total slots: {{ $route->total_slots }}</p>
+                    <p class="card-text">Rating: {{ $route->rating }}</p>
+                    <a href="#" class="btn btn-primary">Go somewhere?</a>
+                    <a href="{{ route('routes.show', ['id' => $route->id]) }}" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>
+            @php $imageCount++; @endphp <!-- Increment image count -->
         </div>
-    </div>
-</section>
-<!-- Content section 3-->
-<section>
-    <div class="container px-5">
-        <div class="row gx-5 align-items-center">
-            <div class="col-lg-6 order-lg-2">
-                <div class="p-5"><img class="img-fluid rounded-circle" src="" alt="..." /></div>
-            </div>
-            <div class="col-lg-6 order-lg-1">
-                <div class="p-5">
-                    <h2 class="display-4">Let there be rock!</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod aliquid, mollitia odio veniam sit iste esse assumenda amet aperiam exercitationem, ea animi blanditiis recusandae! Ratione voluptatum molestiae adipisci, beatae obcaecati.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-</body>
+        @endif
+    @endforeach
+</div>
+
+
+
