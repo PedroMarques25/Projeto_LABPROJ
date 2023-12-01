@@ -15,11 +15,11 @@
     </div>
     <div class="form-group">
         <label for="password">New password:</label>
-        <label for="password_edit"></label><textarea class="form-control" id="password_edit" name="password_edit"></textarea>
+        <label for="password_edit"></label><input type="password" class="form-control" id="password_edit" name="password_edit">
     </div>
     <div class="form-group">
         <label for="password">Current password confirmation:</label>
-        <label for="password_edit"></label><textarea class="form-control" id="password_confirmation_edit" name="password_confirmation_edit"></textarea>
+        {{--<label for="password_edit"></label>--}}<label for="password_confirmation_edit"></label>    <input type="password" class="form-control" id="password_confirmation_edit" name="password_confirmation_edit">
     </div>
     <button type="submit" class="btn btn-primary" style="margin-top: 1%">Save Changes</button>
 </form>

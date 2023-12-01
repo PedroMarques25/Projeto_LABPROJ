@@ -63,8 +63,9 @@ class UserController extends Controller
             $userCity = $user->city->name; // Assuming 'city' is the direct relationship
             session(['user_city' => $userCity]);
 
-            // Authentication successful, redirect to a dashboard or profile page
+            // Authentication successful, redirect to profile page
             return redirect()->intended('/profile');
+
         }
 
         // Authentication failed, redirect back with an error message
