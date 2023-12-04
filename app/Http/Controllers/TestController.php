@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
@@ -35,7 +36,10 @@ class TestController extends Controller
 
             return redirect()->route('profile');
         }
-        return view ('signin');
+
+        $cities = City::all();
+
+        return view('signin', compact('cities'));
     }
 
     public function contact()
@@ -50,4 +54,5 @@ class TestController extends Controller
         }
         return view ('profile');
     }
+
 }

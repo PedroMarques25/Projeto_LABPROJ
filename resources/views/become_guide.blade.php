@@ -4,6 +4,11 @@
 @section('user_name', Session::get('user_name'))
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     @if ($errors->any())
         <div class="alert alert-danger" style="margin-top: 5%">
             <ul>
@@ -13,10 +18,5 @@
             </ul>
         </div>
     @endif
-    @if(Session::has('success'))
-        <div class="alert alert-success" style="margin-top: 7%">
-            {{ Session::get('success') }}
-        </div>
-    @endif
-    @include('sections.edit_profile_page')
+    @include('sections.become_guide_page')
 @endsection

@@ -10,6 +10,7 @@
     <link href="{{asset('purchase_style.css')}}" rel="stylesheet" />
     <link href="{{asset('profile_style.css')}}" rel="stylesheet" />
     <link href="{{asset('my_css.css')}}" rel="stylesheet" />
+
     <title>This is my City | @yield('title', 'Default Title')</title>
 </head>
 @include('includes.profile_header')

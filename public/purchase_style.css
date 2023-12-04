@@ -478,7 +478,7 @@ h6 {
 #hero {
   width: 100%;
   height: 100vh;
-  background: url(../img/hero-bg.jpg) top center;
+  background: url("..") top center;
   background-size: cover;
   overflow: hidden;
   position: relative;
@@ -582,9 +582,9 @@ h6 {
   height: 120px;
   animation-delay: 0s;
   animation: pulsate-btn 2s;
-  animation-direction: forwards;
+  /*animation-direction: forwards;*/
   animation-iteration-count: infinite;
-  animation-timing-function: steps;
+  /*animation-timing-function: steps;*/
   opacity: 1;
   border-radius: 50%;
   border: 2px solid rgba(163, 163, 163, 0.4);
@@ -652,7 +652,7 @@ h6 {
 # About Section
 --------------------------------------------------------------*/
 #about {
-  background: url("../img/about-bg.jpg");
+  background: url("..");
   background-size: cover;
   overflow: hidden;
   position: relative;
@@ -939,7 +939,7 @@ h6 {
 }
 
 #venue .venue-info {
-  background: url("../img/venue-info-bg.jpg") top center no-repeat;
+  background: url("..") top center no-repeat;
   background-size: cover;
   position: relative;
   padding-top: 60px;
@@ -1147,7 +1147,7 @@ h6 {
 #faq .faq-list .question {
   display: block;
   position: relative;
-  font-family: #f82249;
+ /* font-family: #f82249;*/
   font-size: 18px;
   line-height: 24px;
   font-weight: 400;
@@ -1196,7 +1196,7 @@ h6 {
 --------------------------------------------------------------*/
 #subscribe {
   padding: 60px;
-  background: url(../img/subscribe-bg.jpg) center center no-repeat;
+  background: url(..) center center no-repeat;
   background-size: cover;
   overflow: hidden;
   position: relative;
