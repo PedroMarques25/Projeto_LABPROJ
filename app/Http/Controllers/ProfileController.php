@@ -66,11 +66,12 @@ class ProfileController extends Controller
 
             }
         }
+
         //If any change was made
         if (!empty($updateFields)) {
             $user->fill($updateFields);
             $user->save();
-            return redirect()->route('profile')->with('success', 'Profile updated successfully');
+            return redirect()->back()->with('success', 'Profile updated successfully');
         }
 
         return redirect()->back()->with('error', 'Something went wrong');
