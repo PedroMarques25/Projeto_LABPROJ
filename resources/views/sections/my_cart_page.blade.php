@@ -27,7 +27,7 @@
                                 </ul>
                                 <p>Total: € {{ $totalPrice }}</p>
                                 <p>After fee:</p>
-                                <h6 class="card-price text-center">€ {{ $totalPrice }} + {{ $totalPrice }}*0.1</h6>
+                                <h6 class="card-price text-center">€ {{$route->total_price}}</h6>
                             @else
                                 <p>No attractions associated with this route.</p>
                             @endif
@@ -65,7 +65,7 @@
 
 
 <!-- Your HTML structure -->
-<section id="buy-tickets" class="section-with-bg">
+{{--<section id="buy-tickets" class="section-with-bg">
     <div class="container" data-aos="fade-up">
         <!-- Section header -->
 
@@ -90,5 +90,5 @@
             @endforeach
         </div>
     </div>
-</section>
+</section>--}}
 

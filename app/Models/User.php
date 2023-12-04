@@ -59,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(City::class);
     }
+
+    public function guide(): HasOne
+    {
+        return $this->hasOne(Guide::class);
+    }
 }

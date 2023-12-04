@@ -17,7 +17,6 @@ class AttractionFactory extends Factory
     public function definition(): array
     {
         $type = Type::inRandomOrder()->first();
-        //$name = $this->faker->unique()->word;
 
         $name = $type->name . ' ' . $this->faker->unique()->word; // Using Str::title to capitalize the first letter
 

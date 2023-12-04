@@ -21,11 +21,9 @@
         </div>
     @endif
     @include('includes.profile_page_user_and_guide')
-
     @if(Auth::user()->isGuide())
             <?php \App\Models\Guide::rating(); ?>
         @include('sections.profile_page_guide')
-
     @else
         @include('sections.profile_page')
     @endif

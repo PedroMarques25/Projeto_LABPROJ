@@ -89,8 +89,19 @@
 .country-name {
     margin-top: 5px;
     font-weight: bold;
-    width: 70px; /* Ensure width matches image width */
+    width: 70px;
     text-align: center;
+}
+
+.attraction-selection {
+    display: flex;
+    justify-content: left;
+}
+
+.selection-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 

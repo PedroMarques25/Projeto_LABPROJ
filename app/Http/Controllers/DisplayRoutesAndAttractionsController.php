@@ -17,19 +17,14 @@ class DisplayRoutesAndAttractionsController extends Controller
         if (Auth::user()->isGuide()) {
             $userId = Auth::id();
             $guide = Guide::where('user_id', $userId)->firstOrFail();
-            $routes = Route::where('guide_id', $guide->id)->get();
+            $routes_guide = Route::where('guide_id', $guide->id)->get();
+            $routes = Route::where('guide_id', '!=', $guide->id)->orderBy('created_at', 'desc')->get();
             $languages = $guide->languages()->get();
-
-            return view('profile', compact('countries', 'routes', 'languages', 'user'));
+            return view('profile', compact('countries', 'routes', 'languages', 'user', 'routes_guide'));
         } else {
+            $routes = Route::orderBy('created_at', 'desc')->get();
             $attractions = Attraction::all();
-            $routes = Route::all();
             return view('profile', compact('attractions', 'countries', 'routes'));
         }
-    }
-
-    protected function routeDetails()
-    {
-
     }
 }

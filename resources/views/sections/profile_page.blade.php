@@ -65,7 +65,6 @@
                     <p class="card-text">Available spots: {{ $route->remaining_available_slots }}</p>
                     <p class="card-text">Total slots: {{ $route->total_slots }}</p>
                     <p class="card-text">Rating: {{ $route->rating }}</p>
-                    <a href="#" class="btn btn-primary">Go somewhere?</a>
                     <a href="{{ route('routes.show', ['id' => $route->id]) }}" class="btn btn-primary">Go somewhere</a>
                 </div>
             </div>

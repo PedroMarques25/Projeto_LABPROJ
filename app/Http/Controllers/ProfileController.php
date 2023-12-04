@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use App\Models\Guide;
 use App\Models\Language;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -102,7 +104,7 @@ class ProfileController extends Controller
             $user->image_path = 'storage/' . $imageName;
             $user->save();
 
-            return redirect()->route('profile')->with('success', 'Profile picture updated successfully');
+            return redirect()->back()->with('success', 'Profile picture updated successfully');
         } //else {
         // If the file doesn't exist, something might be wrong with the upload process
         return redirect()->route('profile')->with('error', 'Failed to upload the image');
@@ -139,6 +141,17 @@ class ProfileController extends Controller
         return view('become_guide', ['languages' => $languages]);
     }
 
+    protected static function existingGuide(User $user): RedirectResponse | int
+    {
+        $existingGuide = Guide::where('user_id', $user->id)->exists();
+
+        if ($existingGuide) {
+            return redirect()->back()->with('error', 'User already registered as a guide');
+        }
+
+        return 0;
+    }
+
     protected function createGuide(Request $request)
     {
         if (!Auth::check()) {
@@ -148,30 +161,25 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         // Check if the user already has a guide
-        $existingGuide = Guide::where('user_id', $user->id)->exists();
 
-        if ($existingGuide) {
-            return redirect()->route('become-guide')->with('error', 'User already registered as a guide');
+        if(ProfileController::existingGuide($user) === 0) {
+
+            $selectedLanguages = $request->input('languages');
+
+            $languages = Language::whereIn('id', $selectedLanguages)->get();
+
+            // Create a new guide
+            $guide = new Guide();
+            $guide->user_id = $user->id;
+
+            if ($guide->save()) {
+                $guide->languages()->attach($languages);
+
+                // Success message
+                return redirect()->route('become-guide')->with('success', 'Guide created successfully!');
+            }
         }
-
-        $selectedLanguages = $request->input('languages');
-
-        $languages = Language::whereIn('id', $selectedLanguages)->get();
-
-        // Create a new guide
-        $guide = new Guide();
-        $guide->user_id = $user->id;
-
-        if ($guide->save()) {
-            $guide->languages()->attach($languages);
-
-            // Success message
-            return redirect()->route('become-guide')->with('success', 'Guide created successfully!');
-        } else {
-            // Error message if guide creation fails
-            return redirect()->back()->with('error', 'Failed to create guide. Please try again.');
-        }
+        return redirect()->back()->with('error', 'Failed to create guide. Please try again.');
     }
-
 
 }
