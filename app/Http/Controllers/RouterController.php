@@ -81,7 +81,7 @@ class RouterController extends Controller
             $totalPrice = $route->calculateTotalPrice();
             $route->update(['total_price' => $totalPrice]);
 
-            return back()->with('success', 'Route added');
+            return redirect()->route('show.profile')->with('success', 'Route added');
         }
         return redirect()->back()->withInput();
     }

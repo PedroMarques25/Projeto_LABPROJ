@@ -20,14 +20,12 @@ class AttractionFactory extends Factory
 
         $name = $type->name . ' ' . $this->faker->unique()->word; // Using Str::title to capitalize the first letter
 
-        // Retrieve an existing city from the database
         $city = City::inRandomOrder()->first();
 
         $about = $this->faker->text(200);
 
         $price = $this->faker->randomFloat(2, 10, 100);
 
-        // Get a random image from the corresponding type folder
         $attractionImagePath = $this->getRandomImageFromTypeFolder($type->id);
 
         return [
