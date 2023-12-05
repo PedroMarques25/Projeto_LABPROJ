@@ -92,7 +92,7 @@
                                         @endif
                                         <div class="card-body">
                                             <h5 class="card-title">{{ $route->name }}</h5>
-                                            <p class="card-text">{{ substr($route->aboutIt, 0, 25) }}...</p>
+                                            <p class="card-text">{{ substr($route->aboutIt, 0, 15) }}...</p>
                                             <p class="card-text">Available spots: {{ $route->remaining_available_slots }}</p>
                                             <p class="card-text">Total slots: {{ $route->total_slots }}</p>
                                             <p class="card-text">Rating: {{ $route->rating }}</p>
