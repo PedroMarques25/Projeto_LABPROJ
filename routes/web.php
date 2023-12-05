@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
-use App\Http\Controllers\GuideController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouterController;
 use App\Http\Controllers\TestController;
@@ -117,4 +116,22 @@ Route::resource('countries', CountryController::class);
 |--------------------------------------------------------------------------
 */
 Route::get('/routes/{id}', [RouterController::class, 'show'])->name('routes.show');
+Route::get('/add-new-route', [RouterController::class, 'store'])->name('routes.store');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - RouteController
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/add-new-route', [RouterController::class, 'store'])->name('routes.store');
+Route::post('/new-route-confirm', [RouterController::class, 'creation'])->name('routes.creation');
+
+
+/*
+|--------------------------------------------------------------------------
+| Delete Routes - RouteController
+|--------------------------------------------------------------------------
+*/
+Route::delete('routes/{routeID}', [RouterController::class, 'deleteRoute'])->name('route.delete');
 

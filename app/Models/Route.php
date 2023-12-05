@@ -17,7 +17,12 @@ class Route extends Model
         'guide_id',
         'creation_date',
         'rating',
-        'aboutIt'
+        'aboutIt',
+        'total_price',
+        'fee',
+        'route_date',
+        'total_slots',
+        'remaining_available_slots',
     ];
 
     public function attractions(): BelongsToMany
@@ -29,5 +34,14 @@ class Route extends Model
     public function guide(): BelongsTo
     {
         return $this->belongsTo(Guide::class);
+    }
+
+    public function calculateTotalPrice(): float
+    {
+        $attractionPrices = $this->attractions()->pluck('price')->toArray();
+        $totalPrice = array_sum($attractionPrices);
+        $fee = $this->fee ?? $this->faker->numberBetween(5, 20);
+
+        return $totalPrice + $fee;
     }
 }

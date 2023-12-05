@@ -59,7 +59,6 @@ class UserController extends Controller
             //Store the user's bio in the session
             session(['user_bio' => $user->bio]);
 
-            //
             $userCity = $user->city->name; // Assuming 'city' is the direct relationship
             session(['user_city' => $userCity]);
 
@@ -73,10 +72,8 @@ class UserController extends Controller
     }
     public static function logout()
     {
-        // Check if the user is authenticated before performing logout
         if (Auth::check()) {
             Auth::logout();
-
             session()->flush();
         }
 

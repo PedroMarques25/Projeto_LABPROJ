@@ -1,11 +1,11 @@
 <h1 style="padding-top: 5%">Became a guide</h1>
 <p>It'll be a pleasure to have you showing your city!</p>
 
-<form action="{{ route('register-guide') }}" method="POST">
+<form action="{{ route('register-guide') }}" method="POST" style="margin-top: 2%">
     @csrf <!-- CSRF protection -->
     <div class="form-group">
         <label for="languages">Languages:</label>
-        <div>
+        <div style="margin-top: 2%">
             @foreach($languages as $language)
                 <label>
                     <input type="checkbox" name="languages[]" value="{{ $language->id }}">

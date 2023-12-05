@@ -34,6 +34,16 @@ class RouteFactory extends Factory
         return $this->afterCreating(function (Route $route) {
             $attractions = Attraction::factory()->count(rand(2, 5))->create();
             $route->attractions()->attach($attractions);
+
+            // Calculate total_price based on associated attractions' prices
+            $attractionPrices = $attractions->pluck('price')->toArray();
+            $totalPrice = array_sum($attractionPrices);
+            $fee = $route->fee ?? $this->faker->numberBetween(5, 20); // Use existing fee or generate a random fee
+
+            $route->total_price = $totalPrice + ($totalPrice * $fee / 100);
+            $route->fee = $fee;
+
+            $route->save();
         });
     }
 }
