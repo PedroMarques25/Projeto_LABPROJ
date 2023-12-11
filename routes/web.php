@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
 use App\Http\Controllers\ProfileController;
@@ -65,7 +66,11 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/become-guide', [ProfileController::class, 'becameAGuide'])->name('become-guide');
 
-Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('register-guide');
+Route::get('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+Route::get('/delete-profile', [ProfileController::class, 'deleteProfile'])->name('delete-profile');
+
+Route::get('/delete-guide', [ProfileController::class, 'removeGuide'])->name('delete-guide');
 
 
 /*
@@ -77,6 +82,8 @@ Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('r
 Route::post('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
 
 Route::post('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('register-guide');
 
 
 /*
@@ -134,4 +141,21 @@ Route::post('/new-route-confirm', [RouterController::class, 'creation'])->name('
 |--------------------------------------------------------------------------
 */
 Route::delete('routes/{routeID}', [RouterController::class, 'deleteRoute'])->name('route.delete');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - AttractionController
+|--------------------------------------------------------------------------
+*/
+Route::get('/add-new-attraction', [AttractionController::class, 'store'])->name('attraction.store');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - AttractionController
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/add-new-attraction', [AttractionController::class, 'store'])->name('attraction.store');
+Route::post('/new-attraction-confirm', [AttractionController::class, 'creation'])->name('attraction.creation');
+
 

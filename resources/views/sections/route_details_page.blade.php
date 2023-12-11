@@ -59,6 +59,9 @@
 <h2>Date</h2>
 <p>{{ $route->route_date}}</p>
 
+<h2>Duration</h2>
+<p>{{ $route->duration}}</p>
+
 <a href="{{ route('route.addToCart', ['routeId' => $route->id]) }}" class="btn btn-primary">Add to Cart</a><br><br>
 
 @if(Auth::user()->isGuide())

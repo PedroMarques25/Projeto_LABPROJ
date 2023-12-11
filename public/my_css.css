@@ -104,5 +104,10 @@
     gap: 10px;
 }
 
+textarea {
+    resize: none;
+    overflow: hidden;
+}
+
 
 

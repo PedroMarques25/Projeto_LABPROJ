@@ -6,6 +6,7 @@ use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
+
 {
     public function home()
     {

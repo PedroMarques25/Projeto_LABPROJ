@@ -111,6 +111,10 @@
                     @csrf
                     <button type="submit" class="btn btn-primary btn-bg rounded-pill mt-5">Add a route</button>
                 </form>
+                <form action="{{ route('attraction.store') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-bg rounded-pill mt-5">Add new attraction</button>
+                </form>
             </div>
         </div>
     </div>

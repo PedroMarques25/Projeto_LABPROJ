@@ -23,7 +23,7 @@ class DisplayRoutesAndAttractionsController extends Controller
             return view('profile', compact('countries', 'routes', 'languages', 'user', 'routes_guide'));
         } else {
             $routes = Route::orderBy('created_at', 'desc')->get();
-            $attractions = Attraction::all();
+            $attractions = Attraction::orderBy('creation_date', 'desc')->limit(5)->get();
             return view('profile', compact('attractions', 'countries', 'routes'));
         }
     }

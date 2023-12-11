@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,11 @@ class Attraction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'type_id', 'city_id', 'about', 'price', 'attraction_image'
+        'name', 'type_id', 'city_id', 'aboutIt', 'price', 'attraction_image_path'
+    ];
+
+    protected $attributes = [
+        'attraction_image_path' => 'storage/Default/airplane-default.jpg',
     ];
 
     public function type(): BelongsTo

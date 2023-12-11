@@ -20,7 +20,7 @@
     <div class="carousel-inner">
         @foreach($attractions as $attraction)
             <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
-                <img src="{{ $attraction->attraction_image_path }}" class="d-block w-100" alt="Attraction Image">
+                <img src="{{asset($attraction->attraction_image_path) }}" class="d-block w-100" alt="Attraction Image">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ $attraction->name }}</h5>
                     <p>{{ $attraction->aboutIt }}</p>

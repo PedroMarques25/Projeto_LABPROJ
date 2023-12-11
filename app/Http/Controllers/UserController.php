@@ -58,6 +58,7 @@ class UserController extends Controller
             session(['user_bio' => $user->bio]);
 
             $userCity = $user->city->name;
+
             session(['user_city' => $userCity]);
 
             return redirect()->intended('/profile');
