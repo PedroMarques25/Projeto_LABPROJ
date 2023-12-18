@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\City;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -28,7 +27,6 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => 'password',
             'remember_token' => Str::random(10),
-            'city_id' => City::all()->random()->id,
         ];
     }
 
@@ -38,7 +36,7 @@ class UserFactory extends Factory
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
-            'email_verified_at' => now(),
+            'email_verified_at' => null,
         ]);
     }
 }

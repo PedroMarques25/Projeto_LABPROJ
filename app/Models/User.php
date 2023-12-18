@@ -4,14 +4,10 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
-use LaravelIdea\Helper\App\Models\_IH_Guide_C;
 
 class User extends Authenticatable
 {
@@ -26,8 +22,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'city_id',
-
     ];
 
     /**
@@ -50,18 +44,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function isGuide(): bool
+    public function setPasswordAttribute($value): void
     {
-        return Guide::where('user_id', Auth::user()->id)->exists();
+        $this->attributes['password'] = bcrypt($value);
     }
 
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
-
-    public function guide(): HasOne
-    {
-        return $this->hasOne(Guide::class);
-    }
 }

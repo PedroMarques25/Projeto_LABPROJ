@@ -59,50 +59,5 @@
     margin-bottom: 5px;
 }
 
-.star {
-    font-size: 300%; /* Adjust the font size to change the star size */
-    color: black; /* Change the color of the stars */
-}
-
-.countries {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.country {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    margin-top: 5px;
-}
-
-.country-image {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.country-name {
-    margin-top: 5px;
-    font-weight: bold;
-    width: 70px;
-    text-align: center;
-}
-
-.attraction-selection {
-    display: flex;
-    justify-content: left;
-}
-
-.selection-container {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-}
-
 
 

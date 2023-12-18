@@ -18,12 +18,6 @@
                             <div class="invalid-feedback" data-sb-feedback="name:required">An name is required.</div>
                             <div class="invalid-feedback" data-sb-feedback="name:name">Name is not valid.</div>
                         </div>
-                        <!-- City input-->
-                        <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="citySelect" name="city_id">
-                            @foreach($cities as $city)
-                                <option value="{{ $city->id }}">{{ $city->name }}</option>
-                            @endforeach
-                        </select>
                         <!-- Email address input-->
                         <div class="form-floating mb-3">
                             <input class="form-control" id="email" name="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
