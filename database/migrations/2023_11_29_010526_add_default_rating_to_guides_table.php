@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //
+        Schema::table('guides', function (Blueprint $table) {
+            $table->float('rating')->default(0)->change();
+        });
     }
 
     /**
@@ -19,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('guides', function (Blueprint $table) {
+            //
+        });
     }
 };

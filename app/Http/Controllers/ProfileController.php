@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
+use App\Models\Guide;
+use App\Models\Language;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -46,20 +51,32 @@ class ProfileController extends Controller
 
         if (!empty($request->input('city_edit'))) {
             $updateFields['city'] = $request->input('city_edit');
+            session(['user_city' => $user->name]);
         }
 
-        if (!empty($request->input('password_edit'))) {
-            $updateFields['password'] = bcrypt($request->input('password_edit'));
+        $newPassword = $request->input('password_edit');
+        $currentPassword = $request->input('password_confirmation_edit');
+
+        if (!empty($currentPassword) && Hash::check($currentPassword, $user->password) && !empty($newPassword)) {
+
+            $validatedData = $request->validate([
+                'password_edit' => 'required|string|min:8',
+            ]);
+
+            if($validatedData){
+                $updateFields['password'] = bcrypt($newPassword);
+
+            }
         }
 
         //If any change was made
         if (!empty($updateFields)) {
             $user->fill($updateFields);
             $user->save();
-            return redirect()->route('profile')->with('success', 'Profile updated successfully');
+            return redirect()->back()->with('success', 'Profile updated successfully');
         }
 
-        return redirect()->route('profile');
+        return redirect()->back()->with('error', 'Something went wrong');
     }
 
     public function updateProfilePicture(Request $request)
@@ -68,9 +85,9 @@ class ProfileController extends Controller
             return redirect()->route('login');
         }
 
-         $request->validate([
-              'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-          ]); /**/
+        $request->validate([
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]); /**/
 
         if ($request->file('profile_image')) {
             $user = Auth::user();
@@ -87,10 +104,10 @@ class ProfileController extends Controller
             $user->image_path = 'storage/' . $imageName;
             $user->save();
 
-            return redirect()->route('profile')->with('success', 'Profile picture updated successfully');
+            return redirect()->back()->with('success', 'Profile picture updated successfully');
         } //else {
-            // If the file doesn't exist, something might be wrong with the upload process
-            return redirect()->route('profile')->with('error', 'Failed to upload the image');
+        // If the file doesn't exist, something might be wrong with the upload process
+        return redirect()->route('profile')->with('error', 'Failed to upload the image');
         //}
     }
 
@@ -113,4 +130,56 @@ class ProfileController extends Controller
             return redirect()->back()->with('error', 'Incorrect password. Account deletion failed.');
         }
     }
+
+    protected function becameAGuide()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        $languages = Language::all();
+
+        return view('become_guide', ['languages' => $languages]);
+    }
+
+    protected static function existingGuide(User $user): RedirectResponse | int
+    {
+        $existingGuide = Guide::where('user_id', $user->id)->exists();
+
+        if ($existingGuide) {
+            return redirect()->back()->with('error', 'User already registered as a guide');
+        }
+
+        return 0;
+    }
+
+    protected function createGuide(Request $request)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+
+        // Check if the user already has a guide
+
+        if(ProfileController::existingGuide($user) === 0) {
+
+            $selectedLanguages = $request->input('languages');
+
+            $languages = Language::whereIn('id', $selectedLanguages)->get();
+
+            // Create a new guide
+            $guide = new Guide();
+            $guide->user_id = $user->id;
+
+            if ($guide->save()) {
+                $guide->languages()->attach($languages);
+
+                // Success message
+                return redirect()->route('become-guide')->with('success', 'Guide created successfully!');
+            }
+        }
+        return redirect()->back()->with('error', 'Failed to create guide. Please try again.');
+    }
+
 }

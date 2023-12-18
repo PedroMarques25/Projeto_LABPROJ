@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,10 +30,14 @@ class UserController extends Controller
             ],
             'password' => 'required|string|min:8',
             'password_confirmation' => 'required|same:password',
+            'city_id' => 'required|exists:cities,id',
         ]);
 
         // Create a new user object and save it to the database
-        User::create($validatedData);
+        $user = User::create($validatedData);
+
+        $user->city()->associate($validatedData['city_id']);
+        $user->save();
 
         return Redirect::route('login')->with('success', 'User created successfully. Please log in.');
     }
@@ -54,8 +59,12 @@ class UserController extends Controller
             //Store the user's bio in the session
             session(['user_bio' => $user->bio]);
 
-            // Authentication successful, redirect to a dashboard or profile page
+            $userCity = $user->city->name; // Assuming 'city' is the direct relationship
+            session(['user_city' => $userCity]);
+
+            // Authentication successful, redirect to profile page
             return redirect()->intended('/profile');
+
         }
 
         // Authentication failed, redirect back with an error message
@@ -63,16 +72,14 @@ class UserController extends Controller
     }
     public static function logout()
     {
-        // Check if the user is authenticated before performing logout
         if (Auth::check()) {
             Auth::logout();
-
-            session()->forget('user_name');
-            session()->forget('user_bio');
+            session()->flush();
         }
 
         return redirect('index');
     }
+
 }
 
 
