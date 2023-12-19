@@ -61,12 +61,14 @@
 
 <a href="{{ route('route.addToCart', ['routeId' => $route->id]) }}" class="btn btn-primary">Add to Cart</a><br><br>
 
+@if(Auth::user()->isGuide())
 @if(Auth::user()->guide->id === $route->guide_id)
     <form method="POST" action="{{ route('route.delete', ['routeID' => $route->id]) }}">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-primary">Remove Route</button>
     </form>
+@endif
 @endif
 
 

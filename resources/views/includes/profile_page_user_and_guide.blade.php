@@ -28,7 +28,7 @@
                             </div>
                         </form>
                         <ul class="list-unstyled mt-5 mb-0 custom-ul" >
-                            <strong>About me:</strong> @yield('user_bio', 'Bio')
+                            <strong>About me:</strong> @yield('user_bio', 'Bio')<br>
                             <strong>City:</strong> @yield('user_city', 'City')
                         </ul>
                     </div>

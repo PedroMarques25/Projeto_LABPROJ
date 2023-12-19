@@ -53,20 +53,16 @@ class UserController extends Controller
 
             $user = Auth::user();
 
-            // Store the user's name in the session
             session(['user_name' => $user->name]);
 
-            //Store the user's bio in the session
             session(['user_bio' => $user->bio]);
 
-            $userCity = $user->city->name; // Assuming 'city' is the direct relationship
+            $userCity = $user->city->name;
             session(['user_city' => $userCity]);
 
-            // Authentication successful, redirect to profile page
             return redirect()->intended('/profile');
 
         }
-
         // Authentication failed, redirect back with an error message
         return redirect()->back()->withInput()->withErrors(['login' => 'Invalid credentials']);
     }
