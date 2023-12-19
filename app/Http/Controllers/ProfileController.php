@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\City;
 use App\Models\Guide;
 use App\Models\Language;
+use App\Models\Route;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,20 +17,19 @@ use function Laravel\Prompts\error;
 
 class ProfileController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(Authenticate::class);
+    }
     public function edit()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        return view('edit-profile');
+        $cities = City::all(); // Fetch all attractions from the Attractions table
+
+        return view('edit-profile', ['cities' => $cities]);
     }
 
-    public function updateUserProfile(Request $request)
+    public function updateUserProfile(Request $request): RedirectResponse
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $user = Auth::user();
 
         $updateFields = [];
@@ -79,11 +80,8 @@ class ProfileController extends Controller
         return redirect()->back()->with('error', 'Something went wrong');
     }
 
-    public function updateProfilePicture(Request $request)
+    public function updateProfilePicture(Request $request): RedirectResponse
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
 
         $request->validate([
             'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -111,13 +109,8 @@ class ProfileController extends Controller
         //}
     }
 
-    public function deleteProfile(Request $request)
+    public function deleteProfile(Request $request): RedirectResponse
     {
-        // If the user is not logged in, redirect to the login page
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $user = Auth::user();
 
         // Check if the provided password matches the authenticated user's password
@@ -133,9 +126,6 @@ class ProfileController extends Controller
 
     protected function becameAGuide()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
         $languages = Language::all();
 
         return view('become_guide', ['languages' => $languages]);
@@ -154,10 +144,6 @@ class ProfileController extends Controller
 
     protected function createGuide(Request $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
         $user = Auth::user();
 
         // Check if the user already has a guide
@@ -182,4 +168,36 @@ class ProfileController extends Controller
         return redirect()->back()->with('error', 'Failed to create guide. Please try again.');
     }
 
+    protected function confirmPassword (Request $request): bool
+    {
+        $user = Auth::user();
+
+        if (Hash::check($request->password, $user->password)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected function removeGuide(Request $request): RedirectResponse
+    {
+
+        $guideId = Auth::user()->guide->id;
+
+        $routesToDelete = Route::where('guide_id', $guideId)
+            ->whereNull('route_date')
+            ->get();
+
+        foreach ($routesToDelete as $route) {
+            $route->delete(); // Soft delete the route
+        }
+
+        $guide = Guide::findOrFail($guideId);
+
+        if($this->confirmPassword($request) && $guide->delete()) {
+
+            return redirect()->route('show.profile')->with('success', 'Guide removed successfully!');
+        }
+        return redirect()->back()->with('error', 'Please try again.');
+    }
 }

@@ -6,7 +6,7 @@ use App\Models\Attraction;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 
-class TestController extends Controller
+class HomeController extends Controller
 
 {
     public function home()
@@ -24,19 +24,15 @@ class TestController extends Controller
         return view ('index');
     }
 
-    public function login()
+    public function contact()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        return view ('profile');
+        return view ('contact');
     }
 
     public function signin()
     {
         if (Auth::check()) {
-
-            return redirect()->route('profile');
+            return redirect('/profile');
         }
 
         $cities = City::all();
@@ -44,17 +40,12 @@ class TestController extends Controller
         return view('signin', compact('cities'));
     }
 
-    public function contact()
+    public function login()
     {
-        return view ('contact');
-    }
-
-    public function profile()
-    {
-        if (!(Auth::check())) {
-            return redirect()->route('login');
+        if (Auth::check()) {
+            return redirect('/profile');
         }
-        return view ('profile');
-    }
 
+        return view('login');
+    }
 }

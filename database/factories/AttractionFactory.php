@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Attraction;
 use App\Models\Type;
 use App\Models\City;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str; // Import the Str class
@@ -35,22 +36,27 @@ class AttractionFactory extends Factory
             'aboutIt' => $about,
             'price' => $price,
             'attraction_image_path' => $attractionImagePath,
+            'creation_date' => Carbon::now()
         ];
     }
 
     private function getRandomImageFromTypeFolder($typeId): string
     {
         // Get the list of files in the corresponding type folder
-       // $typeFolderPath = "storage/{$typeId}/";
-        $typeFolderPath = "storage/{$typeId}/";
+        $typeFolderPath = "/public/{$typeId}/";
         $files = Storage::files($typeFolderPath);
         // Select a random image from the folder
+
         if (!empty($files)) {
-            //$randomImage = $files[array_rand($files)];
-            return asset($files[rand(0, 1)]); // Return the full path to the image
+            $modifiedFiles = array_map(function ($file) {
+                return str_replace('public/', 'storage/', $file);
+            }, $files);
+
+            // Select a random modified file path
+            return $modifiedFiles[array_rand($modifiedFiles)];
         }
 
-        // If no images found, return a default or placeholder image path
+        // If no images found, return a default image path
         return "storage/Default/airplane-default.jpg";
     }
 }

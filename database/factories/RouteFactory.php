@@ -25,7 +25,7 @@ class RouteFactory extends Factory
             'total_slots' => $this->faker->numberBetween(10, 50),
             'remaining_available_slots' => $this->faker->numberBetween(0, 10),
             'aboutIt' => $this->faker->text(200),
-
+            'duration' => Carbon::createFromTime($this->faker->numberBetween(1, 5), 0, 0), // Random duration between 1 to 5 hours
         ];
     }
 

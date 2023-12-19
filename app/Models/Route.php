@@ -23,6 +23,7 @@ class Route extends Model
         'route_date',
         'total_slots',
         'remaining_available_slots',
+        'duration'
     ];
 
     public function attractions(): BelongsToMany
