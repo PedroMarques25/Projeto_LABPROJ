@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,12 +13,13 @@ use Psr\Container\NotFoundExceptionInterface;
 use function Laravel\Prompts\error;
 
 class PurchaseController extends Controller{
+
+    public function __construct()
+    {
+        $this->middleware(Authenticate::class);
+    }
     public function my_cart()
     {
-        if (!Auth::check()) {
-
-            return redirect()->route('login');
-        }
         return view ('my_cart');
     }
 
@@ -46,7 +48,6 @@ class PurchaseController extends Controller{
         $cart = session()->get('cart', []);
 
         $routesInCart = Route::whereIn('id', $cart)->get();
-
         return view('my_cart', compact('routesInCart'));
     }
 }

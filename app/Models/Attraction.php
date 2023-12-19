@@ -33,4 +33,6 @@ class Attraction extends Model
     {
         return $this->belongsToMany(Route::class, 'attraction_route_pivot');
     }
+
+
 }

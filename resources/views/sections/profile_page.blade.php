@@ -49,10 +49,9 @@
 <div class="row">
     @php $imageCount = 0; @endphp <!-- Initializing image count -->
     @foreach($routes as $route)
-        @if($imageCount < 4) <!-- Check if the image count is less than 5 -->
+        @if($imageCount < 4)
         <div class="col-md-3"> <!-- Display each card in a column taking 4/12 of the row -->
             <div class="card mb-4">
-                <!-- Example image, replace with your route's image -->
                 @if($route->route_path_image)
                     <img class="card-img-top" src="{{ asset($route->route_path_image) }}" alt="Route Image">
                 @else

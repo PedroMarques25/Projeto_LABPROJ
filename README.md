@@ -17,7 +17,7 @@ This is a Laravel-based web application designed to offer and sell tourist route
 
 - PHP 7.4+
 - Composer
-- MySQL
+- MySQL or equivalent
 
 ### Steps
 

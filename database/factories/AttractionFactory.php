@@ -43,12 +43,17 @@ class AttractionFactory extends Factory
     private function getRandomImageFromTypeFolder($typeId): string
     {
         // Get the list of files in the corresponding type folder
-        $typeFolderPath = "/app/public/{$typeId}/";
+        $typeFolderPath = "/public/{$typeId}/";
         $files = Storage::files($typeFolderPath);
         // Select a random image from the folder
 
         if (!empty($files)) {
-            return $files[rand(0, 1)];
+            $modifiedFiles = array_map(function ($file) {
+                return str_replace('public/', 'storage/', $file);
+            }, $files);
+
+            // Select a random modified file path
+            return $modifiedFiles[array_rand($modifiedFiles)];
         }
 
         // If no images found, return a default image path

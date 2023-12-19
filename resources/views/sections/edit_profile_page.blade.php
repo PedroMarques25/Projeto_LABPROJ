@@ -21,7 +21,7 @@
         <label for="password" style="margin-top: 2%">Current password confirmation:</label>
         {{--<label for="password_edit"></label>--}}<label for="password_confirmation_edit"></label><input type="password" class="form-control" id="password_confirmation_edit" name="password_confirmation_edit">
     </div>
-    <button type="submit" class="btn btn-primary" style="margin-top: 1%">Save Changes</button>
+    <button type="submit" class="btn btn-primary mt-10" style="margin-top: 1%">Save Changes</button>
 </form>
 <h2 style="margin-top: 4%"> Delete account</h2>
 <form action="{{ route('delete-profile') }}" method="POST" style="margin-top: 2%">
@@ -31,5 +31,5 @@
         <label for="delete_account_pass_confirmation">Confirm account deletion by entering your password:</label>
         <input type="password" class="form-control" id="delete_account_pass_confirmation" name="password" required>
     </div>
-    <button type="submit" class="btn btn-primary">Delete</button>
+    <button type="submit" class="btn btn-primary mt-10">Delete</button>
 </form>

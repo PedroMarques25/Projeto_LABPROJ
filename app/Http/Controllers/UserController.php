@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Guide;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +43,22 @@ class UserController extends Controller
         return Redirect::route('login')->with('success', 'User created successfully. Please log in.');
     }
 
+    public function profile()
+    {
+        if (!(Auth::check()))
+        {
+            return redirect()->route('login');
+        }
+
+        return view('profile');
+    }
+
     public function login (Request $request){
+
+        if (Auth::check()) {
+            return redirect('/profile');
+        }
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',

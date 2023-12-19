@@ -3,8 +3,10 @@
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouterController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
@@ -28,19 +30,19 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get("/", [TestController::class,'home'])->name('home');
+Route::get("/", [HomeController::class,'home'])->name('home');
 
-Route::get('/index', [TestController::class,'index'])->name('index');
+Route::get('/index', [HomeController::class,'index'])->name('index');
 
-Route::get('/team', [TestController::class,'about']) ->name('about');
+Route::get('/team', [HomeController::class,'about']) ->name('about');
 
-Route::get('/login', [TestController::class,'login']) ->name('login');
+Route::get('/login', [HomeController::class,'login']) ->name('login');
 
-Route::get('/signin', [TestController::class,'signin']) ->name('signin');
+Route::get('/signin', [HomeController::class,'signin']) ->name('signin');
 
-Route::get('/contact', [TestController::class,'contact']) -> name('contact');
+Route::get('/contact', [HomeController::class,'contact']) -> name('contact');
 
-Route::get('/profile-user', [TestController::class, 'profile'])->name('profile');
+Route::get('/profile-user', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
 
@@ -109,6 +111,10 @@ Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart
 |--------------------------------------------------------------------------
 */
 Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile');
+Route::get('/search-routes', [DisplayRoutesAndAttractionsController::class, 'searchRoutes'])->name('search.routes');
+Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class, 'index'])->name('display.attractions');
+Route::get('/search-routes-result', [DisplayRoutesAndAttractionsController::class, 'searchResult'])->name('search.result');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -157,5 +163,20 @@ Route::get('/add-new-attraction', [AttractionController::class, 'store'])->name(
 
 Route::post('/add-new-attraction', [AttractionController::class, 'store'])->name('attraction.store');
 Route::post('/new-attraction-confirm', [AttractionController::class, 'creation'])->name('attraction.creation');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - StripeController
+|--------------------------------------------------------------------------
+*/
+Route::get('/success', [StripeController::class, 'success']) -> name('success');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - StripeController
+|--------------------------------------------------------------------------
+*/
+
+Route ::post('/checkout', [StripeController::class, 'checkout']) -> name('checkout');
 
 
