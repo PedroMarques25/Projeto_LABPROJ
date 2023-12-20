@@ -15,7 +15,8 @@ class StripeController extends Controller
 
     public function checkout()
     {
-        Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
+        //Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $totalPrice = session('total_price');
         $session = Session::create([
             'line_items'    => [
@@ -38,6 +39,6 @@ class StripeController extends Controller
     }
     public function success()
     {
-        return view('index');
+        return view('my_cart');
     }
 }

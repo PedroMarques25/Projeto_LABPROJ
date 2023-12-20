@@ -13,6 +13,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Mail\MailableTIMCity;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,8 @@ Route::get('/profile-user', [UserController::class, 'profile'])->name('profile')
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
 
 Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
 
 
 /*
