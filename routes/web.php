@@ -10,6 +10,8 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Mail\MailableTIMCity;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -110,7 +112,7 @@ Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart
 | Get Routes - DisplayRoutesAndAttractionsController
 |--------------------------------------------------------------------------
 */
-Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile');
+Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile')->middleware(['auth', 'verified']);
 Route::get('/search-routes', [DisplayRoutesAndAttractionsController::class, 'searchRoutes'])->name('search.routes');
 Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class, 'index'])->name('display.attractions');
 
@@ -178,4 +180,25 @@ Route::get('/success', [StripeController::class, 'success']) -> name('success');
 
 Route ::post('/checkout', [StripeController::class, 'checkout']) -> name('checkout');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - Mail
+|--------------------------------------------------------------------------
+*/
 
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/home');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');/**/

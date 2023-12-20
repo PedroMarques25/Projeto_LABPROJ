@@ -15,7 +15,6 @@
     </header>
 </section>
 <h2 style="margin-top: 2%">Recently added attractions</h2>
-
 <div id="attractionCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 4%">
     <div class="carousel-inner">
         @foreach($attractions as $attraction)
@@ -23,7 +22,7 @@
                 <img src="{{asset($attraction->attraction_image_path) }}" class="d-block w-100" alt="Attraction Image">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ $attraction->name }}</h5>
-                    <p>{{ $attraction->aboutIt }}</p>
+                    <p style="color: #0E1B4D">{{ $attraction->aboutIt }}</p>
                 </div>
             </div>
         @endforeach

@@ -40,9 +40,10 @@
 
     <div>
         <button type="submit" class="btn btn-primary btn-bg btn btn-primary mt-10">Search</button>
-        <button type="button" class="btn btn-secondary mt-10" id="clearSearch">Clear</button>
+        <button type="button" class="btn btn-primary btn-bg btn btn-primary mt-10" id="clearSearch">Clear</button>
     </div>
 </form>
+
 
 @if(!empty($searchResult))
     <h2 style="margin-top: 7%" >Your search results, {{ session('user_name') }}</h2>
@@ -52,6 +53,8 @@
             @include('includes.route_card') <!-- Include the new Blade file -->
         @endforeach
     </div>
+    <button class="btn btn-primary btn-bg btn btn-primary mt-10" onclick="clearSearchResults()">Clear Search Results</button>
+
 @endif
 
 <script>
@@ -120,4 +123,7 @@
         resetForm();
     });
 
+    function clearSearchResults() {
+        window.location.href = "{{ route('search.routes') }}?clearSearch=1";
+    }
 </script>

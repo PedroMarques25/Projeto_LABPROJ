@@ -80,6 +80,9 @@ class DisplayRoutesAndAttractionsController extends Controller
             $rating = $request->input('ratingToSearch');
             $searchResult = Route::where('rating', '>=', $rating)->get();
         }
+        if (request()->has('clearSearch')) {
+             $searchResult = []; // Or unset($searchResult);
+        }
         return view('search_route', compact('attractions', 'cities', 'guides', 'searchResult'));
     }
 }
