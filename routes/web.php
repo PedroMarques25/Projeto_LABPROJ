@@ -113,7 +113,6 @@ Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart
 Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile');
 Route::get('/search-routes', [DisplayRoutesAndAttractionsController::class, 'searchRoutes'])->name('search.routes');
 Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class, 'index'])->name('display.attractions');
-Route::get('/search-routes-result', [DisplayRoutesAndAttractionsController::class, 'searchResult'])->name('search.result');
 
 
 /*
