@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
@@ -51,7 +52,15 @@ Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-prof
 
 Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - PDFController
+|--------------------------------------------------------------------------
+*/
+
 Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+Route::get('/generate-pdf-report', [PDFController::class, 'generatePDF_report'])->name('generate.pdf.report');
+
 
 
 /*
@@ -170,6 +179,20 @@ Route::post('/new-attraction-confirm', [AttractionController::class, 'creation']
 
 /*
 |--------------------------------------------------------------------------
+| Get Routes - AdminController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin-index-page', [AdminController::class, 'admin_index_page'])->name('admin.index');
+Route::get('/admin-all-routes', [AdminController::class, 'admin_all_routes'])->name('admin.all.routes');
+Route::get('/admin-all-guides', [AdminController::class, 'admin_all_guides'])->name('admin.all.guides');
+Route::get('/admin-all-users', [AdminController::class, 'admin_all_users'])->name('admin.all.users');
+Route::get('/admin-all-attractions', [AdminController::class, 'admin_all_attractions'])->name('admin.all.attractions');
+Route::get('/admin-charts', [AdminController::class, 'admin_charts'])->name('admin.charts');
+
+
+/*
+|--------------------------------------------------------------------------
 | Get Routes - StripeController
 |--------------------------------------------------------------------------
 */
@@ -190,15 +213,14 @@ Route ::post('/checkout', [StripeController::class, 'checkout']) -> name('checko
 */
 
 Route::get('/email/verify', function () {
-    return view('auth.verify');
+    return view('auth.verify'); //create an email controller and pass to that
 })->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
+    $request->fulfill(); //pass to controller
 
-    return redirect('/home');
+    return redirect('/index');
 })->middleware(['auth', 'signed'])->name('verification.verify');
-
 
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();

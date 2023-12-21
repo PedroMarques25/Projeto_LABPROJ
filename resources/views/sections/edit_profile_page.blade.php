@@ -1,4 +1,3 @@
-<h1 style="margin-top: 10%">Edit Profile</h1>
 <form action="{{ route('update-profile') }}" method="POST">
     @csrf <!-- CSRF protection -->
     <div class="form-group">

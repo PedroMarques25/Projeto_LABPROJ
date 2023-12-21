@@ -55,6 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return Guide::where('user_id', Auth::user()->id)->exists();
     }
 
+    public function isAdmin(): bool
+    {
+        return Admin::where('user_id', Auth::user()->id)->exists();
+    }
+
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
@@ -63,5 +68,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function guide(): HasOne
     {
         return $this->hasOne(Guide::class);
+    }
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(Admin::class);
     }
 }
