@@ -40,34 +40,49 @@ class DisplayRoutesAndAttractionsController extends Controller
         }
     }
 
-    protected function searchRoutes(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    protected function searchRoutes(Request $request): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $attractions = Attraction::all();
         $cities = City::all();
         $guides = Guide::all();
-        return view('search_route', compact('attractions', 'cities', 'guides'));
-    }
-
-    protected function searchResult(Request $request){
-        dd($request);
         $searchResult = [];
 
-        //      Search by date
-        /*if(!empty($request->input('dateToSearch'))){
+        $searchFields = $request->validate([
+            'dateToSearch' => 'date',
+            'guideName' => 'string|max:255',
+            'cityToSearch_id' => 'int',
+            'ratingToSearch' => 'nullable|numeric|between:0,5',
+        ], [
+            'ratingToSearch.numeric' => 'Rating must be a number.',
+            'ratingToSearch.between' => 'Rating must be a positive number not greater than 5.',
+        ]);
+
+        if(!empty($searchFields['dateToSearch'])){
             $route_date = $request->input('dateToSearch');
             $searchResult = Route::where('route_date', $route_date)->get();
-        }*/
-
-        //      Search by guide name
-        if(!empty($request->input('guideName'))){
-            $guideName = $request->input('guideName');
-            $user = User::where('name', $guideName)->get();
-            $guide = Guide::where('user_id', $guideName)->value('id');
-            //$guideID = Guide::where('user_id', $userId)->value('id');
-           // $searchResult = Route::where('guide_id', $guide->id)->get();
         }
 
-        return view('search_route_result', compact('searchResult'));
-    }
+        if (!empty($searchFields['guideName'])) {
+           $guideId = $request->input('guideName');
+           $searchResult = Route::where('guide_id', $guideId)->get();
+        }
 
+        if(!empty($searchFields['cityToSearch_id'])){
+            $city_id = $request->input('cityToSearch_id');
+            $searchResult = Route::whereHas('attractions', function ($query) use ($city_id) {
+                $query->whereHas('city', function ($innerQuery) use ($city_id) {
+                    $innerQuery->where('id', $city_id);
+                });
+            })->get();
+        }
+
+        if(!empty($searchFields['ratingToSearch'])){
+            $rating = $request->input('ratingToSearch');
+            $searchResult = Route::where('rating', '>=', $rating)->get();
+        }
+        if (request()->has('clearSearch')) {
+             $searchResult = []; // Or unset($searchResult);
+        }
+        return view('search_route', compact('attractions', 'cities', 'guides', 'searchResult'));
+    }
 }

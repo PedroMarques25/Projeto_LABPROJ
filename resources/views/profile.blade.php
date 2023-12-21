@@ -26,5 +26,8 @@
     @else
         @include('sections.profile_page')
     @endif
+    @if(Auth::user()->isAdmin())
+        <a href="{{ route('admin.index') }}" class="btn btn-primary">Go to Admin Page</a>
+    @endif
     @include('includes.countries_where_we_are')
 @endsection

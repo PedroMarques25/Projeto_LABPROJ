@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
@@ -10,7 +11,10 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Mail\MailableTIMCity;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +51,16 @@ Route::get('/profile-user', [UserController::class, 'profile'])->name('profile')
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
 
 Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - PDFController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+Route::get('/generate-pdf-report', [PDFController::class, 'generatePDF_report'])->name('generate.pdf.report');
+
 
 
 /*
@@ -110,10 +124,9 @@ Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart
 | Get Routes - DisplayRoutesAndAttractionsController
 |--------------------------------------------------------------------------
 */
-Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile');
+Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile')->middleware(['auth', 'verified']);
 Route::get('/search-routes', [DisplayRoutesAndAttractionsController::class, 'searchRoutes'])->name('search.routes');
 Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class, 'index'])->name('display.attractions');
-Route::get('/search-routes-result', [DisplayRoutesAndAttractionsController::class, 'searchResult'])->name('search.result');
 
 
 /*
@@ -166,6 +179,20 @@ Route::post('/new-attraction-confirm', [AttractionController::class, 'creation']
 
 /*
 |--------------------------------------------------------------------------
+| Get Routes - AdminController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin-index-page', [AdminController::class, 'admin_index_page'])->name('admin.index');
+Route::get('/admin-all-routes', [AdminController::class, 'admin_all_routes'])->name('admin.all.routes');
+Route::get('/admin-all-guides', [AdminController::class, 'admin_all_guides'])->name('admin.all.guides');
+Route::get('/admin-all-users', [AdminController::class, 'admin_all_users'])->name('admin.all.users');
+Route::get('/admin-all-attractions', [AdminController::class, 'admin_all_attractions'])->name('admin.all.attractions');
+Route::get('/admin-charts', [AdminController::class, 'admin_charts'])->name('admin.charts');
+
+
+/*
+|--------------------------------------------------------------------------
 | Get Routes - StripeController
 |--------------------------------------------------------------------------
 */
@@ -179,4 +206,24 @@ Route::get('/success', [StripeController::class, 'success']) -> name('success');
 
 Route ::post('/checkout', [StripeController::class, 'checkout']) -> name('checkout');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - Mail
+|--------------------------------------------------------------------------
+*/
 
+Route::get('/email/verify', function () {
+    return view('auth.verify'); //create an email controller and pass to that
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); //pass to controller
+
+    return redirect('/index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');/**/

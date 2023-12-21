@@ -1,95 +1,129 @@
 <h1>Route Search</h1>
-<p>Write something here</p>
-<form action="{{ route('search.result') }}" method="GET">
+<p>Search the best route for you!</p>
+<style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-gap: 20px;
+    }
+</style>
 
-    <h5>Search by date:</h5>
-    <label for="date">Date:</label>
-    <input type="date" id="dateSearch" name="dateToSearch">
-    <br><br>
-
-    <h5>Search by guide:</h5>
-    <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="guideSelect" name="guideName">
-        @foreach($guides as $guide)
-            <option value="{{ $guide->id }}">{{ $guide->user->name }}</option>
-        @endforeach
-    </select>
-
-    <div class="selected-attractions">
-        <h5>Search routes that contain at least one of the following attractions:</h5>
-        <div class="attraction-selection">
-            <div class="selection-container">
-                <select id="attraction-search" name="attractionsToSearch[]" class="form-select" aria-label="Select Attraction" multiple>
-                    @foreach($attractions as $attraction)
-                        <option value="{{ $attraction->id }}">{{ $attraction->name }}</option>
-                    @endforeach
-                </select>
-                <button type="button" class="btn btn-primary btn-bg rounded-pill" onclick="addSelectedAttractions(event)">Add</button>
-            </div>
-        </div>
-        <p>Click to remove</p>
-        <ul id="selectedListToSearch" onclick="removeAttraction(event)">
-            <!-- Selected attractions will be dynamically added here -->
-        </ul>
+<form action="{{ route('search.routes') }}" method="GET" class="form-grid">
+    <div>
+        <h5>Search by date:</h5>
+        <input type="date" class="form-select form-select-bg mb-3"  id="dateSearch" name="dateToSearch">
     </div>
 
-    <h5>Search routes that take place in one of the following cities:</h5>
-    <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="citySelect" name="cityToSearch_id">
-        @foreach($cities as $city)
-            <option value="{{ $city->id }}">{{ $city->name }}</option>
-        @endforeach
-    </select>
+    <div>
+        <h5>Search by guide:</h5>
+        <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="guideSelect" name="guideName">
+            <option value="" selected disabled>Select a guide</option>
+            @foreach($guides as $guide)
+                <option value="{{ $guide->id }}">{{ $guide->user->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-    <h5>Search routes that take place in one of the following countries:</h5>
-    <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="citySelect" name="typeToSearch_id">
-        @foreach($cities->unique('country_id') as $city)
-            <option value="{{ $city->id }}">{{ $city->country->name }}</option>
-        @endforeach
-    </select>
+    <div>
+        <h5>Search by city:</h5>
+        <select class="form-select form-select-bg mb-3" aria-label=".form-select-lg example" id="citySelect" name="cityToSearch_id">
+            @foreach($cities as $city)
+                <option value="{{ $city->id }}">{{ $city->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-    <h5>Search routes with rating equal or greater than:</h5>
+    <div>
+        <h5>Search by rating:</h5>
+        <input type="number" class="form-select form-select-bg mb-3" id="ratingSelect" name="ratingToSearch" step="0.5" min="0" max="5">
+    </div>
 
-
-    <button type="submit" class="btn btn-primary btn-bg btn btn-primary mt-10">Search</button>
+    <div>
+        <button type="submit" class="btn btn-primary btn-bg btn btn-primary mt-10">Search</button>
+        <button type="button" class="btn btn-primary btn-bg btn btn-primary mt-10" id="clearSearch">Clear</button>
+    </div>
 </form>
 
+
+@if(!empty($searchResult))
+    <h2 style="margin-top: 7%" >Your search results, {{ session('user_name') }}</h2>
+    <div class="row">
+        @php $imageCount = 0; @endphp <!-- Initializing image count -->
+        @foreach($searchResult as $route)
+            @include('includes.route_card') <!-- Include the new Blade file -->
+        @endforeach
+    </div>
+    <button class="btn btn-primary btn-bg btn btn-primary mt-10" onclick="clearSearchResults()">Clear Search Results</button>
+
+@endif
+
 <script>
-    function addSelectedAttractions() {
+    const dateSearch = document.getElementById('dateSearch');
+    const guideSelect = document.getElementById('guideSelect');
+    const citySelect = document.getElementById('citySelect');
+    const ratingSelect = document.getElementById('ratingSelect');
+    const clearSearch = document.getElementById('clearSearch');
 
-        event.preventDefault();
-        let selectElement = document.getElementById("attraction-search");
-        let selectedOptions = selectElement.selectedOptions;
-        let selectedList = document.getElementById("selectedListToSearch");
 
-        for (let i = 0; i < selectedOptions.length; i++) {
-            let option = selectedOptions[i];
-            if (!isAlreadyAdded(option.textContent, selectedList)) {
-                let listItem = document.createElement("li");
-                listItem.textContent = option.textContent;
-                selectedList.appendChild(listItem);
-
-                // Create hidden input for each selected attraction
-                let hiddenInput = document.createElement("input");
-                hiddenInput.type = "hidden";
-                hiddenInput.name = "attractionsToSearch[]";
-                hiddenInput.value = option.value; // Set the value to the attraction ID
-                selectedList.appendChild(hiddenInput);
-            }
+    dateSearch.addEventListener('change', () => {
+        if (dateSearch.value !== '') {
+            guideSelect.disabled = true;
+            citySelect.disabled = true;
+            ratingSelect.disabled = true;
+        } else {
+            guideSelect.disabled = false;
+            citySelect.disabled = false;
+            ratingSelect.disabled = false;
         }
-    }
+    });
 
-    function isAlreadyAdded(textContent, selectedList) {
-        let listItems = selectedList.getElementsByTagName("li");
-        for (let i = 0; i < listItems.length; i++) {
-            if (listItems[i].textContent === textContent) {
-                return true;
-            }
+    guideSelect.addEventListener('change', () => {
+        if (guideSelect.value !== '') {
+            dateSearch.disabled = true;
+            citySelect.disabled = true;
+            ratingSelect.disabled = true;
+        } else {
+            dateSearch.disabled = false;
+            citySelect.disabled = false;
+            ratingSelect.disabled = false;
         }
-        return false;
-    }
+    });
 
-    function removeAttraction(event) {
-        if (event.target.tagName === "LI") {
-            event.target.remove();
+    ratingSelect.addEventListener('change', () => {
+        if (ratingSelect.value !== '') {
+            dateSearch.disabled = true;
+            guideSelect.disabled = true;
+            citySelect.disabled = true;
+        } else {
+            dateSearch.disabled = false;
+            guideSelect.disabled = false;
+            citySelect.disabled = false;
         }
+    });
+
+    citySelect.addEventListener('change', () => {
+        if (citySelect.value !== '') {
+            dateSearch.disabled = true;
+            guideSelect.disabled = true;
+        } else {
+            dateSearch.disabled = false;
+            guideSelect.disabled = false;
+        }
+    });
+
+    const resetForm = () => {
+        dateSearch.value = '';
+        guideSelect.value = '';
+        citySelect.value = '';
+        dateSearch.disabled = false;
+        guideSelect.disabled = false;
+        citySelect.disabled = false;
+    };
+    clearSearch.addEventListener('click', () => {
+        resetForm();
+    });
+
+    function clearSearchResults() {
+        window.location.href = "{{ route('search.routes') }}?clearSearch=1";
     }
 </script>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Stripe\Checkout\Session;
+use Stripe\Exception\ApiErrorException;
 use Stripe\Stripe;
 
 class StripeController extends Controller
@@ -13,6 +15,9 @@ class StripeController extends Controller
 
     }
 
+    /**
+     * @throws ApiErrorException
+     */
     public function checkout()
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
@@ -27,7 +32,7 @@ class StripeController extends Controller
                         ],
                         'unit_amount' => (float)$totalPrice * 100
                     ],
-                    'quantity' => 1,
+                    'quantity' => 1, //CHANGE IT TO THE ACTUAL QUANTITY IN THE CART - KAROL!
                 ],
             ],
             'mode'  =>  'payment',
@@ -36,8 +41,8 @@ class StripeController extends Controller
         ]);
         return redirect() ->away($session->url);
     }
-    public function success()
+    public function success(): RedirectResponse
     {
-        return view('index');
+        return redirect()->intended('/profile');
     }
 }

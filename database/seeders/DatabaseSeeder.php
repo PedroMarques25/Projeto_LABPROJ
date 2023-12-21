@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Attraction;
 use App\Models\City;
 use App\Models\Country;
@@ -27,6 +28,6 @@ class DatabaseSeeder extends Seeder
         Attraction::factory(20)->create();
         Guide::factory(5)->create();
         Route::factory(10)->create();
-
+        Admin::factory(1)->create();
     }
 }

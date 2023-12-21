@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,6 +32,5 @@ class Attraction extends Model
     {
         return $this->belongsToMany(Route::class, 'attraction_route_pivot');
     }
-
 
 }

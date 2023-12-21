@@ -2,7 +2,7 @@
 <div class="row">
     @php $imageCount = 0; @endphp <!-- Initializing image count -->
     @foreach($searchResult as $route)
-        @if($imageCount < 4)
+{{--        @if($imageCount < 4)--}}
         <div class="col-md-3"> <!-- Display each card in a column taking 4/12 of the row -->
             <div class="card mb-4">
                 @if($route->route_path_image)
@@ -21,6 +21,6 @@
             </div>
             @php $imageCount++; @endphp <!-- Increment image count -->
         </div>
-        @endif
+{{--        @endif--}}
     @endforeach
 </div>
