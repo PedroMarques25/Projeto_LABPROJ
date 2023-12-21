@@ -48,7 +48,9 @@ class RouterController extends Controller
             'route_date' => 'required|date|after_or_equal:today',
         ]);
 
-        $imagePath = "storage/route-default-image.jpg"; // Default image path if no image is uploaded
+        $request['attractions'] = array_unique($request['attractions']);
+
+        $imagePath = "storage/route-default-image.jpg";
 
         if ($request->hasFile('route_image')) {
             $imagePath = $request->file('route_image')->store('route_images');
@@ -85,6 +87,8 @@ class RouterController extends Controller
         }
         return redirect()->back()->withInput();
     }
+
+
 
     public function deleteRoute($routeID)
     {
