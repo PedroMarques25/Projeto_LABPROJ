@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Authenticate;
 use App\Models\Route;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -43,10 +46,9 @@ class PurchaseController extends Controller{
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function viewCart()
+    public function viewCart(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $cart = session()->get('cart', []);
-
         $routesInCart = Route::whereIn('id', $cart)->get();
         return view('my_cart', compact('routesInCart'));
     }

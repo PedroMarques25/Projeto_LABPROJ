@@ -39,7 +39,7 @@ class RouterController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|profanity',
             'total_slots' => 'required|numeric|min:1|max:100',
             'aboutIt' => 'required|profanity|max:255',
             'route_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
