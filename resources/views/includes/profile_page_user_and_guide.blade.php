@@ -11,7 +11,7 @@
                         @else
                             <img class="rounded-circle custom-img" src="{{ Auth::user()->image_path }}" alt="User Image" />
                         @endif
-                        <form action="{{ route('update-profile-image') }}" method="POST" enctype="multipart/form-data" class="edit-option position-absolute top-50 start-50 translate-middle">
+                        <form action="{{ route('update-profile-image') }}" method="POST" enctype="multipart/form-data" class="edit-option position-relative top-50 start-50 translate-middle">
                             @csrf <!-- CSRF protection -->
                             <div class="row">
                                 <div class="col-md-6 mb-2">
@@ -36,7 +36,7 @@
                 <div class="col-lg-9 order-lg-2">
                     <h1 class="masthead-heading mb-0" id="hello">Hello, @yield('user_name', 'User')</h1>
                     <h2 class="masthead-subheading mb-0" id="where_to_go">Where to go?</h2>
-                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="#scroll">Search</a>
+                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="{{route('search.routes')}}">Search</a>
                 </div>
             </div>
         </div>

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use LaravelIdea\Helper\App\Models\_IH_Guide_C;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -55,6 +55,11 @@ class User extends Authenticatable
         return Guide::where('user_id', Auth::user()->id)->exists();
     }
 
+    public function isAdmin(): bool
+    {
+        return Admin::where('user_id', Auth::user()->id)->exists();
+    }
+
     public function city(): BelongsTo
     {
         return $this->belongsTo(City::class);
@@ -63,5 +68,10 @@ class User extends Authenticatable
     public function guide(): HasOne
     {
         return $this->hasOne(Guide::class);
+    }
+
+    public function admin(): HasOne
+    {
+        return $this->hasOne(Admin::class);
     }
 }

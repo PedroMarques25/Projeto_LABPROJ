@@ -11,7 +11,11 @@ class Attraction extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'type_id', 'city_id', 'about', 'price', 'attraction_image'
+        'name', 'type_id', 'city_id', 'aboutIt', 'price', 'attraction_image_path'
+    ];
+
+    protected $attributes = [
+        'attraction_image_path' => 'storage/Default/airplane-default.jpg',
     ];
 
     public function type(): BelongsTo
@@ -28,4 +32,5 @@ class Attraction extends Model
     {
         return $this->belongsToMany(Route::class, 'attraction_route_pivot');
     }
+
 }

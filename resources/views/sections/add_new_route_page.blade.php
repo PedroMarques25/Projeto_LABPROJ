@@ -30,24 +30,24 @@
     <label for="total_slots">Total Slots (1-100):</label>
     <input type="number" id="total_slots" name="total_slots" min="1" max="100" required><br><br>
 
-
     <label for="aboutIt">About It:</label><br>
     <textarea id="aboutIt" name="aboutIt" rows="4" cols="50" required></textarea><br>
 
     <label for="fee">Fee:</label><br>
     <input type="text" id="fee" name="fee" required><br><br>
 
+    <label for="duration"></label>
+    <input type="time" id="duration" name="duration" required><br><br>
+
+
     <label for="route_date">Route Date:</label>
     <input type="date" id="route_date" name="route_date" required min="{{ date('Y-m-d') }}"><br>
 
     <button type="submit" class="btn btn-primary btn-bg rounded-pill mt-5">Create Route</button>
 
-    <form action="{{ route('routes.creation') }}" method="POST" class="text-center">
-        @csrf
-        <button type="submit" class="btn btn-primary btn-bg rounded-pill mt-5">Create new attraction</button>
-    </form>
 </form>
 
+{{--JS--}}
 <script>
     function addSelectedAttractions() {
         let selectElement = document.getElementById("attraction-select");
@@ -65,12 +65,11 @@
                 let hiddenInput = document.createElement("input");
                 hiddenInput.type = "hidden";
                 hiddenInput.name = "attractions[]";
-                hiddenInput.value = option.value; // Set the value to the attraction ID
+                hiddenInput.value = option.value;
                 selectedList.appendChild(hiddenInput);
             }
         }
     }
-
 
     function isAlreadyAdded(textContent, selectedList) {
         let listItems = selectedList.getElementsByTagName("li");
@@ -82,10 +81,10 @@
         return false;
     }
 
-
     function removeAttraction(event) {
         if (event.target.tagName === "LI") {
             event.target.remove();
         }
     }
 </script>
+

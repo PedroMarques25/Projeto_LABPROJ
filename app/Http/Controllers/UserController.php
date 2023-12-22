@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\invoice;
 use App\Models\City;
+use App\Models\Guide;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
@@ -39,10 +42,27 @@ class UserController extends Controller
         $user->city()->associate($validatedData['city_id']);
         $user->save();
 
-        return Redirect::route('login')->with('success', 'User created successfully. Please log in.');
+        $user->sendEmailVerificationNotification();
+
+        return view('auth.verify')->with('success', 'User created successfully. Please verify your email.');
+    }
+
+    public function profile()
+    {
+        if (!(Auth::check()))
+        {
+            return redirect()->route('login');
+        }
+
+        return view('profile');
     }
 
     public function login (Request $request){
+
+        if (Auth::check()) {
+            return redirect('/profile');
+        }
+
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
@@ -58,6 +78,7 @@ class UserController extends Controller
             session(['user_bio' => $user->bio]);
 
             $userCity = $user->city->name;
+
             session(['user_city' => $userCity]);
 
             return redirect()->intended('/profile');

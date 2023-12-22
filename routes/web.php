@@ -1,13 +1,20 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\DisplayRoutesAndAttractionsController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouterController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
+use App\Mail\invoice;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,23 +34,33 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-Route::get("/", [TestController::class,'home'])->name('home');
+Route::get("/", [HomeController::class,'home'])->name('home');
 
-Route::get('/index', [TestController::class,'index'])->name('index');
+Route::get('/index', [HomeController::class,'index'])->name('index');
 
-Route::get('/team', [TestController::class,'about']) ->name('about');
+Route::get('/team', [HomeController::class,'about']) ->name('about');
 
-Route::get('/login', [TestController::class,'login']) ->name('login');
+Route::get('/login', [HomeController::class,'login']) ->name('login');
 
-Route::get('/signin', [TestController::class,'signin']) ->name('signin');
+Route::get('/signin', [HomeController::class,'signin']) ->name('signin');
 
-Route::get('/contact', [TestController::class,'contact']) -> name('contact');
+Route::get('/contact', [HomeController::class,'contact']) -> name('contact');
 
-Route::get('/profile-user', [TestController::class, 'profile'])->name('profile');
+Route::get('/profile-user', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('edit-profile');
 
 Route::get('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - PDFController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('generate-pdf', [PDFController::class, 'generatePDF']);
+Route::get('/generate-pdf-report', [PDFController::class, 'generatePDF_report'])->name('generate.pdf.report');
+
 
 
 /*
@@ -65,7 +82,11 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::get('/become-guide', [ProfileController::class, 'becameAGuide'])->name('become-guide');
 
-Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('register-guide');
+Route::get('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+Route::get('/delete-profile', [ProfileController::class, 'deleteProfile'])->name('delete-profile');
+
+Route::get('/delete-guide', [ProfileController::class, 'removeGuide'])->name('delete-guide');
 
 
 /*
@@ -77,6 +98,8 @@ Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('r
 Route::post('/update-user-profile', [ProfileController::class, 'updateUserProfile'])->name('update-profile');
 
 Route::post('/update-profile-picture', [ProfileController::class, 'updateProfilePicture'])->name('update-profile-image');
+
+Route::post('/become-guide', [ProfileController::class, 'createGuide'])->name('register-guide');
 
 
 /*
@@ -95,13 +118,24 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 Route::get("/my-cart", [PurchaseController::class,'viewCart'])->name('my-cart');
 Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart'])->name('route.addToCart');
 
+/*
+|--------------------------------------------------------------------------
+| Delete Routes - PurchaseController
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/route/{routeId}/remove-from-cart', [PurchaseController::class, 'removeFromCart'])->name('route.removeFromCart');
+
 
 /*
 |--------------------------------------------------------------------------
 | Get Routes - DisplayRoutesAndAttractionsController
 |--------------------------------------------------------------------------
 */
-Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile');
+Route::get('/profile', [DisplayRoutesAndAttractionsController::class, 'showProfile'])->name('show.profile')->middleware(['auth', 'verified']);
+Route::get('/search-routes', [DisplayRoutesAndAttractionsController::class, 'searchRoutes'])->name('search.routes');
+Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class, 'index'])->name('display.attractions');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -135,3 +169,69 @@ Route::post('/new-route-confirm', [RouterController::class, 'creation'])->name('
 */
 Route::delete('routes/{routeID}', [RouterController::class, 'deleteRoute'])->name('route.delete');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - AttractionController
+|--------------------------------------------------------------------------
+*/
+Route::get('/add-new-attraction', [AttractionController::class, 'store'])->name('attraction.store');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - AttractionController
+|--------------------------------------------------------------------------
+*/
+
+Route::post('/add-new-attraction', [AttractionController::class, 'store'])->name('attraction.store');
+Route::post('/new-attraction-confirm', [AttractionController::class, 'creation'])->name('attraction.creation');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - AdminController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/admin-index-page', [AdminController::class, 'admin_index_page'])->name('admin.index');
+Route::get('/admin-all-routes', [AdminController::class, 'admin_all_routes'])->name('admin.all.routes');
+Route::get('/admin-all-guides', [AdminController::class, 'admin_all_guides'])->name('admin.all.guides');
+Route::get('/admin-all-users', [AdminController::class, 'admin_all_users'])->name('admin.all.users');
+Route::get('/admin-all-attractions', [AdminController::class, 'admin_all_attractions'])->name('admin.all.attractions');
+Route::get('/admin-charts', [AdminController::class, 'admin_charts'])->name('admin.charts');
+
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - StripeController
+|--------------------------------------------------------------------------
+*/
+Route::get('/success', [StripeController::class, 'success']) -> name('success');
+
+/*
+|--------------------------------------------------------------------------
+| Post Routes - StripeController
+|--------------------------------------------------------------------------
+*/
+
+Route ::post('/checkout', [StripeController::class, 'checkout']) -> name('checkout');
+
+/*
+|--------------------------------------------------------------------------
+| Get Routes - Mail
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/email/verify', function () {
+    return view('auth.verify'); //create an email controller and pass to that
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill(); //pass to controller
+
+    return redirect('/index');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');/**/

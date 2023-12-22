@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\Authenticate;
 use App\Models\Attraction;
 use App\Models\Route;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Askedio\Laravel5ProfanityFilter\ProfanityFilter;
@@ -12,35 +17,29 @@ use Illuminate\Support\Str;
 
 class RouterController extends Controller
 {
-    public function show($id)
+    public function __construct()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-
+        $this->middleware(Authenticate::class);
+    }
+    public function show($id): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
+    {
         $route = Route::findOrFail($id); // Fetch the route details based on ID
         return view('route_details', compact('route')); // Display detailed route information in the 'routes.show' view
     }
 
-    public function store()
+    public function store(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
 
         $attractions = Attraction::all(); // Fetch all attractions from the Attractions table
 
         return view('add_new_route', ['attractions' => $attractions]);
     }
 
-    public function creation(Request $request){
-
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
+    public function creation(Request $request): RedirectResponse
+    {
 
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|profanity',
             'total_slots' => 'required|numeric|min:1|max:100',
             'aboutIt' => 'required|profanity|max:255',
             'route_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -49,7 +48,9 @@ class RouterController extends Controller
             'route_date' => 'required|date|after_or_equal:today',
         ]);
 
-        $imagePath = "storage/route-default-image.jpg"; // Default image path if no image is uploaded
+        $request['attractions'] = array_unique($request['attractions']);
+
+        $imagePath = "storage/route-default-image.jpg";
 
         if ($request->hasFile('route_image')) {
             $imagePath = $request->file('route_image')->store('route_images');
@@ -57,7 +58,7 @@ class RouterController extends Controller
 
         $user = Auth::user();
 
-        $route = Route::create([
+        $route = (new Route)->create([
             'created_at' => now(),
             'updated_at' => now(),
             'name' => $request->input('name'),
@@ -71,6 +72,7 @@ class RouterController extends Controller
             'fee' => $request->input('fee'),
             'route_date' => $request->input('route_date'),
             'total_price' => 0,
+            'duration' => $request->input('duration')
         ]);
 
         if ($request->has('attractions')) {
@@ -86,11 +88,10 @@ class RouterController extends Controller
         return redirect()->back()->withInput();
     }
 
+
+
     public function deleteRoute($routeID)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
 
         $route = Route::find($routeID);
 

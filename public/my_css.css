@@ -104,5 +104,16 @@
     gap: 10px;
 }
 
+textarea {
+    resize: none;
+    overflow: hidden;
+}
+
+#attractionCarousel .carousel-item img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+    border-bottom: 150px solid white; /* Adds a white border around the image */
+}
 
 

@@ -22,10 +22,12 @@
     @endif
     @include('includes.profile_page_user_and_guide')
     @if(Auth::user()->isGuide())
-            <?php \App\Models\Guide::rating(); ?>
         @include('sections.profile_page_guide')
     @else
         @include('sections.profile_page')
+    @endif
+    @if(Auth::user()->isAdmin())
+        <a href="{{ route('admin.index') }}" class="btn btn-primary">Go to Admin Page</a>
     @endif
     @include('includes.countries_where_we_are')
 @endsection

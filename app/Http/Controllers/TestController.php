@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attraction;
 use App\Models\City;
 use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
+
 {
     public function home()
     {
@@ -24,10 +26,10 @@ class TestController extends Controller
 
     public function login()
     {
-        if (Auth::check()) {
-            return redirect()->route('profile');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
-        return view ('login');
+        return view ('profile');
     }
 
     public function signin()
