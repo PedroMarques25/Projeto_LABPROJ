@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Authenticate;
 use App\Models\Route;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -29,24 +32,40 @@ class PurchaseController extends Controller{
      */
     public function addToCart($routeId)
     {
+        $route = Route::findOrFail($routeId);
+
+        if ($route->remaining_available_slots <= 0) {
+            return redirect()->back()->with('error', 'This route has no available slots.');
+        }
+
         $cart = session()->get('cart', []);
 
         if (!in_array($routeId, $cart)) {
             $cart[] = $routeId;
             session()->put('cart', $cart);
         }
-
-        return redirect()->back()->with('success', 'Route added to cart.');
+        return redirect()->route('my-cart');
     }
 
+    public function removeFromCart($routeId)
+    {
+        $cart = session()->get('cart', []);
+
+        if (($key = array_search($routeId, $cart)) !== false) {
+            unset($cart[$key]);
+            session()->put('cart', $cart);
+            return redirect()->route('my-cart')->with('success', 'Route removed from cart.');
+        } else {
+            return redirect()->route('my-cart')->with('error', 'Route not found in cart.');
+        }
+    }
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function viewCart()
+    public function viewCart(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         $cart = session()->get('cart', []);
-
         $routesInCart = Route::whereIn('id', $cart)->get();
         return view('my_cart', compact('routesInCart'));
     }

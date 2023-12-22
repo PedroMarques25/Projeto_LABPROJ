@@ -39,7 +39,7 @@ class RouterController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|profanity',
             'total_slots' => 'required|numeric|min:1|max:100',
             'aboutIt' => 'required|profanity|max:255',
             'route_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -48,7 +48,9 @@ class RouterController extends Controller
             'route_date' => 'required|date|after_or_equal:today',
         ]);
 
-        $imagePath = "storage/route-default-image.jpg"; // Default image path if no image is uploaded
+        $request['attractions'] = array_unique($request['attractions']);
+
+        $imagePath = "storage/route-default-image.jpg";
 
         if ($request->hasFile('route_image')) {
             $imagePath = $request->file('route_image')->store('route_images');
@@ -85,6 +87,8 @@ class RouterController extends Controller
         }
         return redirect()->back()->withInput();
     }
+
+
 
     public function deleteRoute($routeID)
     {

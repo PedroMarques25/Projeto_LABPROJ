@@ -65,7 +65,7 @@
                 let hiddenInput = document.createElement("input");
                 hiddenInput.type = "hidden";
                 hiddenInput.name = "attractions[]";
-                hiddenInput.value = option.value; // Set the value to the attraction ID
+                hiddenInput.value = option.value;
                 selectedList.appendChild(hiddenInput);
             }
         }

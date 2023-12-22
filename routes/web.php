@@ -11,7 +11,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
-use App\Mail\MailableTIMCity;
+use App\Mail\invoice;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -117,6 +117,14 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 
 Route::get("/my-cart", [PurchaseController::class,'viewCart'])->name('my-cart');
 Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart'])->name('route.addToCart');
+
+/*
+|--------------------------------------------------------------------------
+| Delete Routes - PurchaseController
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/route/{routeId}/remove-from-cart', [PurchaseController::class, 'removeFromCart'])->name('route.removeFromCart');
 
 
 /*

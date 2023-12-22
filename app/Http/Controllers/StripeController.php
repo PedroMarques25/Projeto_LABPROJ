@@ -22,6 +22,8 @@ class StripeController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $totalPrice = session('total_price');
+        $quantity = session('cart_quantity');
+        $quantity = (int)$quantity;
         $session = Session::create([
             'line_items'    => [
                 [
@@ -32,7 +34,7 @@ class StripeController extends Controller
                         ],
                         'unit_amount' => (float)$totalPrice * 100
                     ],
-                    'quantity' => 1, //CHANGE IT TO THE ACTUAL QUANTITY IN THE CART - KAROL!
+                    'quantity' => 1,
                 ],
             ],
             'mode'  =>  'payment',
@@ -41,8 +43,12 @@ class StripeController extends Controller
         ]);
         return redirect() ->away($session->url);
     }
-    public function success(): RedirectResponse
+
+    public function success()
     {
+        invoice();
+        decreaseAvailableSlots();
         return redirect()->intended('/profile');
+
     }
 }
