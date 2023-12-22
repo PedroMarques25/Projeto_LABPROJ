@@ -11,7 +11,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
-use App\Mail\MailableTIMCity;
+use App\Mail\invoice;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;

@@ -32,14 +32,19 @@ class PurchaseController extends Controller{
      */
     public function addToCart($routeId)
     {
+        $route = Route::findOrFail($routeId);
+
+        if ($route->remaining_available_slots <= 0) {
+            return redirect()->back()->with('error', 'This route has no available slots.');
+        }
+
         $cart = session()->get('cart', []);
 
         if (!in_array($routeId, $cart)) {
             $cart[] = $routeId;
             session()->put('cart', $cart);
         }
-
-        return redirect()->back()->with('success', 'Route added to cart.');
+        return redirect()->route('my-cart');
     }
 
     /**

@@ -47,6 +47,7 @@ class StripeController extends Controller
     public function success()
     {
         invoice();
+        decreaseAvailableSlots();
         return redirect()->intended('/profile');
 
     }

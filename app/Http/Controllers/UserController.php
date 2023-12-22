@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\MailableTIMCity;
+use App\Mail\invoice;
 use App\Models\City;
 use App\Models\Guide;
 use App\Models\User;
