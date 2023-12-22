@@ -47,6 +47,18 @@ class PurchaseController extends Controller{
         return redirect()->route('my-cart');
     }
 
+    public function removeFromCart($routeId)
+    {
+        $cart = session()->get('cart', []);
+
+        if (($key = array_search($routeId, $cart)) !== false) {
+            unset($cart[$key]);
+            session()->put('cart', $cart);
+            return redirect()->route('my-cart')->with('success', 'Route removed from cart.');
+        } else {
+            return redirect()->route('my-cart')->with('error', 'Route not found in cart.');
+        }
+    }
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface

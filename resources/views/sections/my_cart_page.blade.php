@@ -23,9 +23,15 @@
                                         Fee: {{ $route->fee }}{{ fmod($route->fee, 1) !== 0 ? '%' : '' }}
                                     </li>
                                 </ul>
-                                <p>Total: € {{ $totalPrice }}</p>
-                                <p>After fee:</p>
                                 <h6 class="card-price text-center">€ {{$route->total_price}}</h6>
+
+                                <hr>
+                                <form action="{{ route('route.removeFromCart', ['routeId' => $route->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Remove from Cart</button>
+                                </form>
+
                                 @php
                                     // Add the route's total price to the session accumulator
                                     $sessionTotalPrice += $route->total_price;
@@ -42,14 +48,16 @@
                     $quantity = $routesInCart->count();
                     session(['cart_quantity' => $quantity]);
                 @endphp
-            <div class="text-center">
+            <div class="text-center" style="margin-top: 5%">
                 <form action="{{ route('checkout') }}" method="POST">
-                    <button type="submit" name="_token" value="{{csrf_token()}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buy-ticket-modal" data-ticket-type="standard-access">Buy Now</button>
+                    <button type="submit" name="_token" value="{{csrf_token()}}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#buy-ticket-modal" data-ticket-type="standard-access">Buy Now</button>
                 </form>
             </div>
         </div>
     </div>
 </section>
+
+
 
 
 

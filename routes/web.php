@@ -118,6 +118,14 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 Route::get("/my-cart", [PurchaseController::class,'viewCart'])->name('my-cart');
 Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart'])->name('route.addToCart');
 
+/*
+|--------------------------------------------------------------------------
+| Delete Routes - PurchaseController
+|--------------------------------------------------------------------------
+*/
+
+Route::delete('/route/{routeId}/remove-from-cart', [PurchaseController::class, 'removeFromCart'])->name('route.removeFromCart');
+
 
 /*
 |--------------------------------------------------------------------------
