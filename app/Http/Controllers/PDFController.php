@@ -23,6 +23,6 @@ use Illuminate\Http\Request;
         }
 
         protected function generatePDF_report(){
-           return report_admin();
+           return reportAdmin();
         }
     }

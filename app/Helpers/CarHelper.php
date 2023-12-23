@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\Route;
+use App\Models\Trip;
 
 if (!function_exists('carContent')) {
-    function carContent()
+    function carContent(): array
     {
         $cart = session()->get('cart', []);
         $routesInCart = Route::whereIn('id', $cart)->get();
@@ -11,9 +12,11 @@ if (!function_exists('carContent')) {
 
         foreach ($routesInCart as $route) {
             $routeDetails = [
+                'id' => $route->id,
                 'name' => $route->name,
-                'about'=> $route->aboutIt,
+                'about' => $route->aboutIt,
                 'total_price' => $route->tota_price,
+                'guide_id' => $route->guide_id,
                 'duration' => $route->duration,
             ];
 
@@ -24,15 +27,13 @@ if (!function_exists('carContent')) {
 
         }
 
-        $data = [
+        return [
             'title' => 'This is my city',
             'title_' => 'Invoice',
             'date' => date('m/d/Y'),
             'user_name' => Auth::user()->name,
             'routeDetails' => $routeDetailsArray,
         ];
-
-        return $data;
     }
 }
 
@@ -49,5 +50,30 @@ if (!function_exists('decreaseAvailableSlots')) {
         }
 
         session()->forget('cart');
+    }
+}
+
+
+
+if (!function_exists('confirmPurchase')) {
+    function confirmPurchase($invoiceId): void
+    {
+        $user = Auth::user();
+
+        $data = carContent(); // Get route details from carContent
+
+        foreach ($data['routeDetails'] as $route) {
+            $routeModel = Route::where('id', $route['id'])->first(); // Fetch the Route model
+            if ($routeModel) { // Check if the Route exists
+                $trip = new Trip([
+                    'date_of_purchase' => now(),
+                    'user_id' => $user->id,
+                    'guide_id' => $routeModel->guide_id,
+                    'route_id' => $routeModel->id,
+                    'invoice_id' => $invoiceId,
+                ]);
+                $trip->save();
+            }
+        }
     }
 }
