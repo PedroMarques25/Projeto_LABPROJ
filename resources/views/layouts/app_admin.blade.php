@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('sb-admin-2.min.css')}}">
     <link href="{{asset('profile_style.css')}}" rel="stylesheet" />
     <link href="{{asset('my_css.css')}}" rel="stylesheet" />
+    <link rel="icon" href="{{asset('heart.png')}}" type="image/x-icon">
     <title>This is my City | @yield('title', 'Default Title')</title>
 </head>
 <main class="container mt-4">

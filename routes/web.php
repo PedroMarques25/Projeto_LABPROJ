@@ -8,10 +8,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RouterController;
 use App\Http\Controllers\StripeController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PurchaseController;
-use App\Mail\invoice;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
@@ -139,7 +138,7 @@ Route::get('/display-attractions', [DisplayRoutesAndAttractionsController::class
 
 /*
 |--------------------------------------------------------------------------
-| Get Routes - Admin
+| Get Routes - CountriesController
 |--------------------------------------------------------------------------
 */
 Route::resource('countries', CountryController::class);
@@ -198,6 +197,13 @@ Route::get('/admin-all-users', [AdminController::class, 'admin_all_users'])->nam
 Route::get('/admin-all-attractions', [AdminController::class, 'admin_all_attractions'])->name('admin.all.attractions');
 Route::get('/admin-charts', [AdminController::class, 'admin_charts'])->name('admin.charts');
 
+/*
+|--------------------------------------------------------------------------
+| Get Routes - TripController
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/my-trips', [TripController::class, 'show'])->name('my.trips');
 
 /*
 |--------------------------------------------------------------------------
