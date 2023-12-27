@@ -8,6 +8,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 use App\Http\Controllers\StripeController;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class StripeTest extends TestCase
 {
@@ -15,6 +17,9 @@ class StripeTest extends TestCase
 
     public function testStripeControllerRouteAccess()
     {
+        $user = factory(User::class)->create();
+
+        Auth::login($user);
         
         $route = route('checkout');
 
