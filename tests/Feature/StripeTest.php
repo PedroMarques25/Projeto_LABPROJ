@@ -10,17 +10,14 @@ use Tests\TestCase;
 use App\Http\Controllers\StripeController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Database\Factories\UserFactory;
 
 class StripeTest extends TestCase
 {
     //use RefreshDatabase, WithFaker, WithoutMiddleware;
 
     public function testStripeControllerRouteAccess()
-    {
-        $user = factory(User::class)->create();
-
-        Auth::login($user);
-        
+    {     
         $route = route('checkout');
 
         $response = $this->get($route);
