@@ -44,11 +44,11 @@ class StripeController extends Controller
         return redirect() ->away($session->url);
     }
 
-    public function success()
+    public function success(): RedirectResponse
     {
-        invoice();
+        $invoiceId = invoice();
+        confirmPurchase($invoiceId);
         decreaseAvailableSlots();
-        return redirect()->intended('/profile');
-
+        return redirect()->intended('/my-trips');
     }
 }

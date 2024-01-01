@@ -43,4 +43,9 @@ class Guide extends Model
         session(['guide_rating' => $guideRating]);
 
     }
+
+    public function trips(): HasMany
+    {
+        return $this->hasMany(Trip::class);
+    }
 }
