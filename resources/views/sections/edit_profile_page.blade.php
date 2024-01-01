@@ -1,4 +1,4 @@
-<form action="{{ route('update-profile') }}" method="POST">
+<form action="{{ route('update-profile') }}" method="POST" style="margin-top: 7%">
     @csrf <!-- CSRF protection -->
     <div class="form-group">
         <label for="name">Name:</label>
