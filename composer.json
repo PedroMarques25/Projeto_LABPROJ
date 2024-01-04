@@ -33,7 +33,8 @@
         },
         "files": [
             "app/Helpers/PDFHelper.php",
-            "app/Helpers/CarHelper.php"
+            "app/Helpers/CarHelper.php",
+            "app/Helpers/Guide_or_Admin_Helper.php"
         ]
     },
     "autoload-dev": {
