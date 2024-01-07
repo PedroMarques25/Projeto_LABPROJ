@@ -22,7 +22,7 @@
     </div>
     <button type="submit" class="btn btn-primary mt-10" style="margin-top: 1%">Save Changes</button>
 </form>
-<h2 style="margin-top: 4%"> Delete account</h2>
+{{--<h2 style="margin-top: 4%"> Delete account</h2>
 <form action="{{ route('delete-profile') }}" method="POST" style="margin-top: 2%">
     @csrf
     @method('DELETE') <!-- Method spoofing for DELETE request -->
@@ -31,4 +31,21 @@
         <input type="password" class="form-control" id="delete_account_pass_confirmation" name="password" required>
     </div>
     <button type="submit" class="btn btn-primary mt-10">Delete</button>
-</form>
+</form>--}}
+
+@if(isAdmin())
+    <h2 style="margin-top: 4%">Delete account</h2>
+    <p>You are the admin. To delete your account, please contact our support at <a href="mailto:support@timcity.com">support@timcity.com</a>.</p>
+@else
+    <h2 style="margin-top: 4%">Delete account</h2>
+    <form action="{{ route('delete-profile') }}" method="POST" style="margin-top: 2%">
+        @csrf
+        @method('DELETE') <!-- Method spoofing for DELETE request -->
+        <div class="form-group">
+            <label for="delete_account_pass_confirmation">Confirm account deletion by entering your password:</label>
+            <input type="password" class="form-control" id="delete_account_pass_confirmation" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-10" {{ isAdmin() ? 'disabled' : '' }}>Delete</button>
+    </form>
+@endif
+
