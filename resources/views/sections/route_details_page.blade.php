@@ -62,10 +62,12 @@
 <h2>Duration</h2>
 <p>{{ $route->duration}}</p>
 
-<a href="{{ route('route.addToCart', ['routeId' => $route->id]) }}" class="btn btn-primary">Add to Cart</a><br><br>
+@if(!routeBelongs($route) || !isGuide())
+    <a href="{{ route('route.addToCart', ['routeId' => $route->id]) }}" class="btn btn-primary">Add to Cart</a><br><br>
+@endif
 
-@if(Auth::user()->isGuide())
-@if(Auth::user()->guide->id === $route->guide_id)
+@if(isGuide())
+@if(routeBelongs($route))
     <form method="POST" action="{{ route('route.delete', ['routeID' => $route->id]) }}">
         @csrf
         @method('DELETE')

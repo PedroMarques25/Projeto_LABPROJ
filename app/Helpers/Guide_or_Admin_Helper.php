@@ -21,6 +21,12 @@ if (!function_exists('isAdmin')) {
 }
 
 if (!function_exists('routeBelongs')) {
-
+    function routeBelongs($route) {
+        $user = Auth::user();
+        if ($user && $user->guide && $user->guide->id === $route->guide_id) {
+            return true;
+        }
+        return false;
+    }
 }
 

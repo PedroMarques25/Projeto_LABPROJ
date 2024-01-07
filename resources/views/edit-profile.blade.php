@@ -19,7 +19,7 @@
         </div>
     @endif
     @include('sections.edit_profile_page')
-    @if(Auth::user()->isGuide())
+    @if(isGuide())
         @include('sections.edit_profile_guide')
     @endif
 @endsection
