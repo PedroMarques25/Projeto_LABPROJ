@@ -26,7 +26,7 @@
                         <span class="star empty" style="font-size: 300%">&#9734;</span>
                     @endif
 
-                    @for ($i = 0; $i < $emptyStars; $i++)
+                    @for ($i = 1; $i < $emptyStars; $i++)
                         <span class="star empty" style="font-size: 300%">&#9734;</span>
                     @endfor
                 </div>

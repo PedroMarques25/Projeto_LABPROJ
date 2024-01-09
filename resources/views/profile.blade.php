@@ -1,9 +1,9 @@
 @extends(('layouts.app_profile'))
 
-@section('title', Session::get('user_name'))
-@section('user_name', Session::get('user_name'))
-@section('user_bio', Session::get('user_bio'))
-@section('user_city', Session::get('user_city'))
+@section('title', userName())
+@section('user_name', userName())
+@section('user_bio', userBio())
+@section('user_city', userCity())
 
 @section('content')
     @if(Session::has('success'))
