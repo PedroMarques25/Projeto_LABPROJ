@@ -22,8 +22,7 @@ class StripeController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $totalPrice = session('total_price');
-        $quantity = session('cart_quantity');
-        $quantity = (int)$quantity;
+
         $session = Session::create([
             'line_items'    => [
                 [
