@@ -96,7 +96,8 @@ class RouterController extends Controller
         $route = Route::find($routeID);
 
         if ($route->delete()) {
-            return redirect()->action([DisplayRoutesAndAttractionsController::class, 'showProfile'])->with('success', 'Route deleted successfully.');
+            return redirect()->action([DisplayRoutesAndAttractionsController::class,
+             'showProfile'])->with('success', 'Route deleted successfully.');
         } else {
             return redirect()->route('show.profile')->with('error', 'Failed to delete the route.');
         }
