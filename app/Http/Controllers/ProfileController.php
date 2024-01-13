@@ -35,19 +35,33 @@ class ProfileController extends Controller
         $updateFields = [];
 
         if (!empty($request->input('bio'))) {
-            $updateFields['bio'] = $request->input('bio');
 
-            //Update bio
-            $user->bio = $request->input('bio');
-            session(['user_bio' => $user->bio]);
+            $validatedData = $request->validate([
+                'bio' => 'string|profanity',
+            ]);
+
+            if($validatedData) {
+                $updateFields['bio'] = $request->input('bio');
+
+                //Update bio
+                $user->bio = $request->input('bio');
+                session(['user_bio' => $user->bio]);
+            }
         }
 
         if (!empty($request->input('name_edit'))) {
-            $updateFields['name'] = $request->input('name_edit');
 
-            //Update name
-            $user->name = $request->input('name_edit');
-            session(['user_name' => $user->name]);
+            $validatedData = $request->validate([
+                'name_edit' => 'string|profanity',
+            ]);
+
+            if($validatedData) {
+                $updateFields['name'] = $request->input('name_edit');
+
+                //Update name
+                $user->name = $request->input('name_edit');
+                session(['user_name' => $user->name]);
+            }
         }
 
         if (!empty($request->input('city_edit'))) {
