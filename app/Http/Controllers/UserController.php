@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
+use Askedio\Laravel5ProfanityFilter\ProfanityFilter;
+
 
 class UserController extends Controller
 {
@@ -20,6 +22,7 @@ class UserController extends Controller
             'name' => [
                 'required',
                 'string',
+                'profanity',
                 'max:255',
                 'regex:/^[^\s]+$|^[^\p{C}]+$/u',
             ],
@@ -35,6 +38,7 @@ class UserController extends Controller
             'password_confirmation' => 'required|same:password',
             'city_id' => 'required|exists:cities,id',
         ]);
+
 
         // Create a new user object and save it to the database
         $user = User::create($validatedData);

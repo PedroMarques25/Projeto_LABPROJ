@@ -43,10 +43,10 @@ class PurchaseController extends Controller{
         if (!in_array($routeId, $cart)) {
             $cart[] = $routeId;
             session()->put('cart', $cart);
-        }
+        
         return redirect()->route('my-cart');
+        }
     }
-
     public function removeFromCart($routeId)
     {
         $cart = session()->get('cart', []);
