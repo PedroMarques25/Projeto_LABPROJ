@@ -28,7 +28,7 @@ class ProfileController extends Controller
         return view('edit-profile', ['cities' => $cities]);
     }
 
-    public function updateUserProfile(Request $request): RedirectResponse
+     public function updateUserProfile(Request $request): RedirectResponse
     {
         $user = Auth::user();
 

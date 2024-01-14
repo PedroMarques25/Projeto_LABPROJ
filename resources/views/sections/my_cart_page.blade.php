@@ -24,13 +24,37 @@
                                     </li>
                                 </ul>
                                 <h6 class="card-price text-center">€ {{$route->total_price}}</h6>
-
                                 <hr>
-                                <form action="{{ route('route.removeFromCart', ['routeId' => $route->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Remove from Cart</button>
-                                </form>
+                                <div class="d-flex flex-column align-items-center"> <!-- Added this div for flex container -->
+                                <div class="d-flex justify-content-between mb-2">
+                                <form action="{{ route('increase-quantity') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-info">+</button>
+                                </form> 
+                            <form action="{{ route('decrease-quantity') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-warning">-</button>
+                            <select name="selected_time" id="selected_time">
+                                <option value="8:00 - 9:00">8:00 - 9:00</option>
+                                <option value="10:00 - 11:00">10:00 - 11:00</option>
+                                <option value="12:00 - 13:00">12:00 - 13:00</option>
+                                <option value="14:00 - 15:00">14:00 - 15:00</option>
+                                <option value="16:00 - 17:000">16:00 - 17:00</option>
+                                <option value="18:00 - 19:00">18:00 - 19:00</option>
+
+           
+        </select>
+    </form>
+
+                            </form>
+            </div>
+    <form action="{{ route('route.removeFromCart', ['routeId' => $route->id]) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Remove from Cart</button>
+    </form>
+</div>
+
 
                                 @php
                                     // Add the route's total price to the session accumulator
@@ -48,6 +72,7 @@
                     $quantity = $routesInCart->count();
                     session(['cart_quantity' => $quantity]);
                 @endphp
+                
             <div class="text-center" style="margin-top: 5%">
                 <form action="{{ route('checkout') }}" method="POST">
                     <button type="submit" name="_token" value="{{csrf_token()}}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#buy-ticket-modal" data-ticket-type="standard-access">Buy Now</button>

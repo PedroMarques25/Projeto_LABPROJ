@@ -116,6 +116,8 @@ Route::delete('/delete-profile', [ProfileController::class, 'deleteProfile'])->n
 
 Route::get("/my-cart", [PurchaseController::class,'viewCart'])->name('my-cart');
 Route::get('/route/{routeId}/add-to-cart', [PurchaseController::class,'addToCart'])->name('route.addToCart');
+Route::post('/increase-quantity', [PurchaseController::class,'increaseQuantity'])->name('increase-quantity');
+Route::post('/decrease-quantity', [PurchaseController::class,'decreaseQuantity'])->name('decrease-quantity');
 
 /*
 |--------------------------------------------------------------------------

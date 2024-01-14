@@ -22,6 +22,7 @@ class StripeController extends Controller
     {
         Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $totalPrice = session('total_price');
+        $cartQuantity = session('cart_quantity', 2);
 
         $session = Session::create([
             'line_items'    => [
@@ -31,9 +32,9 @@ class StripeController extends Controller
                         'product_data' => [
                             'name'=> 'Your next trip',
                         ],
-                        'unit_amount' => (float)$totalPrice * 100
+                        'unit_amount' => (float)$totalPrice * 100 * $cartQuantity
                     ],
-                    'quantity' => 1,
+                    'quantity' => $cartQuantity,
                 ],
             ],
             'mode'  =>  'payment',
