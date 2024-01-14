@@ -29,8 +29,7 @@ class PurchaseController extends Controller
     $currentQuantity = session('cart_quantity', 0);
     $newQuantity = $currentQuantity * 2;
     $selectedTime = $request->input('selected_time');
-
-
+    
     session(['cart_quantity' => $newQuantity]);
     
 

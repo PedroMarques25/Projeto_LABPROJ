@@ -38,7 +38,8 @@ class TripController extends Controller
                 }
             }
         }
-        return view('myTrips.trips', ['myTrips' => $filteredTrips ?? []]); // Return the filtered trips
+        //return view('myTrips.trips', ['myTrips' => $filteredTrips ?? []]); // Return the filtered trips
+        return view('/profile');
     }
 
 
