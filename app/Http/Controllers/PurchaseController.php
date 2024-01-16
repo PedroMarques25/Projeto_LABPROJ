@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\Authenticate;
 use App\Models\Route;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use function Laravel\Prompts\error;
 
 class PurchaseController extends Controller{
 
@@ -25,6 +22,31 @@ class PurchaseController extends Controller{
     {
         return view ('my_cart');
     }
+    
+    public function increaseQuantity(Request $request): RedirectResponse
+{
+    $currentQuantity = session('cart_quantity', 0);
+    $newQuantity = $currentQuantity * 2;
+    $selectedTime = $request->input('selected_time');
+    
+    session(['cart_quantity' => $newQuantity]);
+    
+
+    return redirect()->back()->with('success', 'Quantity increased');
+}
+
+public function decreaseQuantity(Request $request): RedirectResponse
+{
+    $currentQuantity = session('cart_quantity', 0);
+    $newQuantity = max($currentQuantity / 2, 1); // Ensure quantity doesn't go below 1
+    $selectedTime = $request->input('selected_time');
+
+    // Handle the selected time as needed
+
+    session(['cart_quantity' => $newQuantity]);
+
+    return redirect()->back()->with('success', 'Quantity decreased');
+}
 
     /**
      * @throws ContainerExceptionInterface

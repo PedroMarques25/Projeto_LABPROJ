@@ -22,6 +22,26 @@
                                     <li>
                                         Fee: {{ $route->fee }}{{ fmod($route->fee, 1) !== 0 ? '%' : '' }}
                                     </li>
+                                    <div class="d-flex flex-column align-items-center">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <form action="{{ route('increase-quantity', ['routeId' => $route->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-info">+</button>
+                                        </form>
+                                        <form action="{{ route('decrease-quantity', ['routeId' => $route->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-warning">-</button>
+                                        </form>
+                                    </div>
+                                    <div class="mb-2">
+                                            <select name="selected_time" id="selected_time">
+                                                <option value="8:00 - 9:00">8:00 - 9:00</option>
+                                                <option value="10:00 - 11:00">10:00 - 11:00</option>
+                                                <option value="12:00 - 13:00">12:00 - 13:00</option>
+                                                <option value="14:00 - 15:00">14:00 - 15:00</option>
+                                                <option value="16:00 - 17:00">16:00 - 17:00</option>
+                                                <option value="18:00 - 19:00">18:00 - 19:00</option>
+                                            </select>
                                 </ul>
                                 <h6 class="card-price text-center">€ {{$route->total_price}}</h6>
 
